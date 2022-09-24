@@ -1,4 +1,6 @@
-export class EnhancedImageData extends ImageData {
+import { RemoteImageData } from "../gpu/RemoteImageData";
+
+export class EnhancedImageData extends RemoteImageData {
   setPixel(
     x: number,
     y: number,

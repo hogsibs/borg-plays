@@ -2,7 +2,7 @@ import { RingBufferWriter } from "./ring-buffer-writer";
 import ringBufferPlayerClass from "./ring-buffer-player.node.js";
 import { RemoteAudioWorkletNode } from "./RemoteAudioWorkletNode";
 import { RemoteAudioContext } from "../RemoteAudioContext";
-import { RemoteBlob } from "./RemoteBlob";
+import { Blob } from "buffer";
 
 // Encapsulates all the logic for the ring buffer on the main thread. ring-buffer-player-node.js is the worklet that
 // lives on a separate thread. Here samples and parameters can be written in a way that allows the ring buffer player
@@ -99,7 +99,7 @@ export class RingBufferPlayer {
   // a url to the file after the node modules are bundled.
   private getModuleFile() {
     const moduleFileContents = ringBufferPlayerClass;
-    const blob = new RemoteBlob([moduleFileContents], {
+    const blob = new Blob([moduleFileContents], {
       type: "application/javascript",
     });
     return URL.createObjectURL(blob as any);

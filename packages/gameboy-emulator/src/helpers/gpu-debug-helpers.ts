@@ -4,6 +4,7 @@ import { getBit } from "./binary-helpers";
 import { backgroundPaletteRegister } from "../gpu/registers/background-palette-register";
 import { objectAttributeMemoryRegisters } from "../gpu/registers/object-attribute-memory-registers";
 import { objectPaletteRegisters } from "../gpu/registers/object-palette-registers";
+import { RemoteImageData } from "../gpu/RemoteImageData";
 
 const colors = [
   255, // white
@@ -17,7 +18,7 @@ const CharacterDataEnd = 0x97ff;
 
 let oamImageDate = new EnhancedImageData(320, 320);
 
-export function backgroundTilesToImageData(): ImageData {
+export function backgroundTilesToImageData(): RemoteImageData {
   let backgroundTileMap: Uint8Array | Int8Array;
   backgroundTileMap = memory.memoryBytes.subarray(0x9800, 0x9800 + 0x1000);
 
@@ -118,7 +119,7 @@ export function drawSpriteTileAt(
   }
 }
 
-export function drawOam(): ImageData {
+export function drawOam(): RemoteImageData {
   const bytesPerLine = 2;
   const linesPerTile = 8; // TODO: Update to account for 16px high tiles, which are not yet implemented
   const bytesPerTile = bytesPerLine * linesPerTile;
@@ -153,7 +154,7 @@ export function drawOam(): ImageData {
   return oamImageDate;
 }
 
-export function drawOamToBackground(): ImageData {
+export function drawOamToBackground(): RemoteImageData {
   const bytesPerLine = 2;
   const linesPerTile = 8; // TODO: Update to account for 16px high tiles, which are not yet implemented
   const bytesPerTile = bytesPerLine * linesPerTile;
@@ -180,7 +181,7 @@ export function drawOamToBackground(): ImageData {
   return oamImageDate;
 }
 
-export function characterImageData(): ImageData {
+export function characterImageData(): RemoteImageData {
   const characterData = memory.memoryBytes.subarray(
     CharacterDataStart,
     CharacterDataEnd

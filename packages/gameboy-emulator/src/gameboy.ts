@@ -35,7 +35,7 @@ export class Gameboy {
     memory.reset();
     lcdControlRegister.value = 0x83; // initial value from official guide
 
-    requestAnimationFrame((diff) => this.runFrame(diff));
+    setTimeout((diff) => this.runFrame(diff));
   }
 
   private runFrame(currentTime: number) {
@@ -66,7 +66,7 @@ export class Gameboy {
       this.cycles = this.cycles % GPU.CyclesPerFrame;
     }
 
-    requestAnimationFrame((diff) => this.runFrame(diff));
+    setTimeout((diff) => this.runFrame(diff));
   }
 
   onFrameFinished(callback: Function) {

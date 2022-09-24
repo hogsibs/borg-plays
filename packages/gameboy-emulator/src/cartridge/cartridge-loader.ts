@@ -28,7 +28,7 @@ export class CartridgeLoader {
       case CartridgeType.MBC3_TIMER_RAM_BATTERY:
         return new Mbc3Cartridge(gameDataView);
       default:
-        alert("oops not ready");
+        console.error("oops not ready");
         return new Cartridge(gameDataView);
     }
   }

@@ -1,4 +1,5 @@
 import { input } from "./input";
+import { remoteNavigator } from "./remoteNavigator";
 
 export enum Xbox360ControllerButtons {
   A,
@@ -33,7 +34,7 @@ export class ControllerManager {
   a = Xbox360ControllerButtons.A;
 
   queryButtons() {
-    const gamepad = navigator.getGamepads()[this.controller];
+    const gamepad = remoteNavigator.getGamepads()[this.controller];
 
     if (!gamepad) {
       return;

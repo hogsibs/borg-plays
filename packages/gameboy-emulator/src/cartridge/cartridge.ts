@@ -1,5 +1,6 @@
 import { CartridgeType } from "./cartridge-type.enum";
 import { Mbc1Cartridge } from "./mbc1-cartridge";
+import { TextDecoder } from "util";
 
 export class Cartridge {
   static EntryPointOffset = 0x100;
