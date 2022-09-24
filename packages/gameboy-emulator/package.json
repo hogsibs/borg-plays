@@ -1,0 +1,25 @@
+{
+  "name": "@borg-plays/gameboy-emulator",
+  "version": "1.1.1",
+  "description": "A GameBoy emulator written with typescript",
+  "main": "./dist/gameboy.js",
+  "module": "./dist/gameboy.js",
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roblouie/gameboy-emulator"
+  },
+  "scripts": {
+    "develop": "tsc --watch",
+    "build": "tsc"
+  },
+  "keywords": [
+    "game",
+    "emulator"
+  ],
+  "author": "Robert Louie",
+  "license": "ISC",
+  "type": "module"
+}
