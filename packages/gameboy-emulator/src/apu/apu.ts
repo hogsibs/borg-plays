@@ -1,10 +1,10 @@
-import { CPU } from "../cpu/cpu";
-import { Sound1 } from "./sound-1";
-import { Sound2 } from "./sound-2";
-import { Sound4 } from "./sound-4";
-import { Sound3 } from "./sound-3";
-import { RemoteAudioContext } from "./RemoteAudioContext";
-import { RemoteRingBufferPlayer } from "./RemoteRingBufferPlayer";
+import { CPU } from "../cpu/cpu.js";
+import { Sound1 } from "./sound-1.js";
+import { Sound2 } from "./sound-2.js";
+import { Sound4 } from "./sound-4.js";
+import { Sound3 } from "./sound-3.js";
+import { RemoteAudioContext } from "./RemoteAudioContext.js";
+import { RemoteRingBufferPlayer } from "./RemoteRingBufferPlayer.js";
 
 export class APU {
   private static FrameSequencerHertz = 512;

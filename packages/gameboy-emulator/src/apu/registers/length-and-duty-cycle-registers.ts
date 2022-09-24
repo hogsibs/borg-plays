@@ -1,5 +1,5 @@
-import { memory } from "../../memory/memory";
-import { SingleByteMemoryRegister } from "../../memory/memory-register";
+import { memory } from "../../memory/memory.js";
+import { SingleByteMemoryRegister } from "../../memory/memory-register.js";
 
 export class LengthAndDutyCycleRegister implements SingleByteMemoryRegister {
   offset: number;

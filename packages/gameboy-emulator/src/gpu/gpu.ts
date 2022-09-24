@@ -1,19 +1,19 @@
-import { memory } from "../memory/memory";
-import { EnhancedImageData } from "../helpers/enhanced-image-data";
-import { asUint8, clearBit, getBit } from "../helpers/binary-helpers";
-import { LcdStatusMode } from "./registers/lcd-status-mode.enum";
-import { windowYRegister } from "./registers/window-y-register";
-import { windowXRegister } from "./registers/window-x-register";
-import { lcdStatusRegister } from "./registers/lcd-status-register";
-import { lineYRegister } from "./registers/line-y-register";
-import { lineYCompareRegister } from "./registers/line-y-compare-register";
-import { lcdControlRegister } from "./registers/lcd-control-register";
-import { backgroundPaletteRegister } from "./registers/background-palette-register";
-import { scrollYRegister } from "./registers/scroll-y-register";
-import { scrollXRegister } from "./registers/scroll-x-register";
-import { objectAttributeMemoryRegisters } from "./registers/object-attribute-memory-registers";
-import { objectPaletteRegisters } from "./registers/object-palette-registers";
-import { interruptRequestRegister } from "../cpu/registers/interrupt-request-register";
+import { memory } from "../memory/memory.js";
+import { EnhancedImageData } from "../helpers/enhanced-image-data.js";
+import { asUint8, clearBit, getBit } from "../helpers/binary-helpers.js";
+import { LcdStatusMode } from "./registers/lcd-status-mode.enum.js";
+import { windowYRegister } from "./registers/window-y-register.js";
+import { windowXRegister } from "./registers/window-x-register.js";
+import { lcdStatusRegister } from "./registers/lcd-status-register.js";
+import { lineYRegister } from "./registers/line-y-register.js";
+import { lineYCompareRegister } from "./registers/line-y-compare-register.js";
+import { lcdControlRegister } from "./registers/lcd-control-register.js";
+import { backgroundPaletteRegister } from "./registers/background-palette-register.js";
+import { scrollYRegister } from "./registers/scroll-y-register.js";
+import { scrollXRegister } from "./registers/scroll-x-register.js";
+import { objectAttributeMemoryRegisters } from "./registers/object-attribute-memory-registers.js";
+import { objectPaletteRegisters } from "./registers/object-palette-registers.js";
+import { interruptRequestRegister } from "../cpu/registers/interrupt-request-register.js";
 
 export class GPU {
   static ScreenWidth = 160;

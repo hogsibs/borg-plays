@@ -1,10 +1,10 @@
-import { memory } from "../memory/memory";
-import { sound3HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers";
-import { sound3OutputLevelRegister } from "./registers/sound-3-output-level-register";
-import { sound3LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers";
-import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
-import { getLowerNibble, getUpperNibble } from "../helpers/binary-helpers";
-import { sound3LengthRegister } from "./registers/sound-3-length-register";
+import { memory } from "../memory/memory.js";
+import { sound3HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers.js";
+import { sound3OutputLevelRegister } from "./registers/sound-3-output-level-register.js";
+import { sound3LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers.js";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register.js";
+import { getLowerNibble, getUpperNibble } from "../helpers/binary-helpers.js";
+import { sound3LengthRegister } from "./registers/sound-3-length-register.js";
 
 export class Sound3 {
   private frequencyTimer = 0;

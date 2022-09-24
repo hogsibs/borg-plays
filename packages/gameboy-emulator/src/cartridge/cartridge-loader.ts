@@ -1,7 +1,7 @@
-import { CartridgeType } from "./cartridge-type.enum";
-import { Mbc1Cartridge } from "./mbc1-cartridge";
-import { Cartridge } from "./cartridge";
-import { Mbc3Cartridge } from "./mbc3-cartridge";
+import { CartridgeType } from "./cartridge-type.enum.js";
+import { Mbc1Cartridge } from "./mbc1-cartridge.js";
+import { Cartridge } from "./cartridge.js";
+import { Mbc3Cartridge } from "./mbc3-cartridge.js";
 
 export class CartridgeLoader {
   static TypeOffset = 0x147;

@@ -1,14 +1,35 @@
 import type { HeadFC, PageProps } from "gatsby";
-import React, { FunctionComponent, useCallback } from "react";
+import React, {
+  Children,
+  FunctionComponent,
+  useCallback,
+  useReducer,
+  useState,
+} from "react";
 import { io } from "socket.io-client";
 
 export const Head: HeadFC = () => <title>Borg Plays - Home</title>;
 
 const Connector: FunctionComponent = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [messages, addMessage] = useReducer(
+    (messages: string[], message: string) => [...messages, message],
+    []
+  );
   const connect = useCallback(() => {
-    io("http://localhost:8001/");
+    setIsConnected(true);
+    const socket = io("http://localhost:8001/");
+    socket.on("message", (message) => addMessage(message));
   }, []);
-  return <button onClick={connect}>Connect</button>;
+  return isConnected ? (
+    <>
+      {Children.map(messages, (message) => (
+        <p>{message}</p>
+      ))}
+    </>
+  ) : (
+    <button onClick={connect}>Connect</button>
+  );
 };
 
 const IndexPage: FunctionComponent<PageProps> = () => {

@@ -1,5 +1,5 @@
-import { MultiByteMemoryRegister } from "../../memory/memory-register";
-import { memory } from "../../memory/memory";
+import { MultiByteMemoryRegister } from "../../memory/memory-register.js";
+import { memory } from "../../memory/memory.js";
 
 export class ObjectAttributeMemoryRegister implements MultiByteMemoryRegister {
   static StartOffset = 0xfe00;

@@ -1,7 +1,7 @@
-import { RingBufferWriter } from "./ring-buffer-writer";
+import { RingBufferWriter } from "./ring-buffer-writer.js";
 import ringBufferPlayerClass from "./ring-buffer-player.node.js";
-import { RemoteAudioWorkletNode } from "./RemoteAudioWorkletNode";
-import { RemoteAudioContext } from "../RemoteAudioContext";
+import { RemoteAudioWorkletNode } from "./RemoteAudioWorkletNode.js";
+import { RemoteAudioContext } from "../RemoteAudioContext.js";
 import { Blob } from "buffer";
 
 // Encapsulates all the logic for the ring buffer on the main thread. ring-buffer-player-node.js is the worklet that

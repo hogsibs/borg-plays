@@ -1,7 +1,7 @@
-import { SingleByteMemoryRegister } from "../../memory/memory-register";
-import { memory } from "../../memory/memory";
-import { getBit, setBit } from "../../helpers/binary-helpers";
-import { LcdStatusMode } from "./lcd-status-mode.enum";
+import { SingleByteMemoryRegister } from "../../memory/memory-register.js";
+import { memory } from "../../memory/memory.js";
+import { getBit, setBit } from "../../helpers/binary-helpers.js";
+import { LcdStatusMode } from "./lcd-status-mode.enum.js";
 
 class LcdStatusRegister implements SingleByteMemoryRegister {
   offset = 0xff41;

@@ -1,11 +1,11 @@
-import { memory } from "../memory/memory";
-import { Enveloper } from "./enveloper";
-import { sound1EnvelopeControlRegister } from "./registers/envelope-control-registers";
-import { sweepControlRegister } from "./registers/sweep-control-register";
-import { sound1LengthAndDutyCycleRegister } from "./registers/length-and-duty-cycle-registers";
-import { sound1HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers";
-import { sound1LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers";
-import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
+import { memory } from "../memory/memory.js";
+import { Enveloper } from "./enveloper.js";
+import { sound1EnvelopeControlRegister } from "./registers/envelope-control-registers.js";
+import { sweepControlRegister } from "./registers/sweep-control-register.js";
+import { sound1LengthAndDutyCycleRegister } from "./registers/length-and-duty-cycle-registers.js";
+import { sound1HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers.js";
+import { sound1LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers.js";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register.js";
 
 export class Sound1 {
   private dutyCycles = [

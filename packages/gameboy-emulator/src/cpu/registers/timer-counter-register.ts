@@ -1,5 +1,5 @@
-import { SingleByteMemoryRegister } from "../../memory/memory-register";
-import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register.js";
+import { memory } from "../../memory/memory.js";
 
 export class TimerCounterRegister implements SingleByteMemoryRegister {
   offset = 0xff05;

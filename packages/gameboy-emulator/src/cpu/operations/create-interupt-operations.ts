@@ -1,4 +1,4 @@
-import { CPU } from "../cpu";
+import { CPU } from "../cpu.js";
 
 // TODO: Interrupt disable / enable doesn't change the master interrupt flag until
 // after the instruction following EI/DI executes. Currently they just change the flag

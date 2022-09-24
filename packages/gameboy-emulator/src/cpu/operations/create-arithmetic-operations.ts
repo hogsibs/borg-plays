@@ -1,6 +1,6 @@
-import { memory } from "../../memory/memory";
-import { CPU } from "../cpu";
-import { CpuRegister } from "../internal-registers/cpu-register";
+import { memory } from "../../memory/memory.js";
+import { CPU } from "../cpu.js";
+import { CpuRegister } from "../internal-registers/cpu-register.js";
 
 export function createArithmeticOperations(this: CPU) {
   const { registers } = this;

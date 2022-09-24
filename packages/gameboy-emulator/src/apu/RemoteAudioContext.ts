@@ -1,6 +1,6 @@
-import { RemoteAudioWorklet } from "./RemoteAudioWorklet";
-import { RemoteAudioNode } from "./ring-buffer/RemoteAudioNode";
-import { RemoteAudioParam } from "./ring-buffer/RemoteAudioParam";
+import { RemoteAudioWorklet } from "./RemoteAudioWorklet.js";
+import { RemoteAudioNode } from "./ring-buffer/RemoteAudioNode.js";
+import { RemoteAudioParam } from "./ring-buffer/RemoteAudioParam.js";
 
 export class RemoteAudioContext {
   public sampleRate: number;

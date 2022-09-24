@@ -1,6 +1,6 @@
-import { RemoteAudioContext } from "../RemoteAudioContext";
-import { RemoteAudioNode } from "./RemoteAudioNode";
-import { RemoteAudioParam } from "./RemoteAudioParam";
+import { RemoteAudioContext } from "../RemoteAudioContext.js";
+import { RemoteAudioNode } from "./RemoteAudioNode.js";
+import { RemoteAudioParam } from "./RemoteAudioParam.js";
 
 export class RemoteAudioWorkletNode {
   constructor(

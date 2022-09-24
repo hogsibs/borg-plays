@@ -1,5 +1,5 @@
-import { CartridgeType } from "./cartridge-type.enum";
-import { Mbc1Cartridge } from "./mbc1-cartridge";
+import { CartridgeType } from "./cartridge-type.enum.js";
+import { Mbc1Cartridge } from "./mbc1-cartridge.js";
 import { TextDecoder } from "util";
 
 export class Cartridge {

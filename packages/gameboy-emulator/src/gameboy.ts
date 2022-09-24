@@ -1,14 +1,14 @@
-import { GPU } from "./gpu/gpu";
-import { CPU } from "./cpu/cpu";
-import { memory } from "./memory/memory";
-import { input } from "./input/input";
-import { APU } from "./apu/apu";
-import { lcdControlRegister } from "./gpu/registers/lcd-control-register";
-import { controllerManager } from "./input/controller-manager";
-import { CartridgeType } from "./cartridge/cartridge-type.enum";
-import { Mbc1Cartridge } from "./cartridge/mbc1-cartridge";
-import { CartridgeLoader } from "./cartridge/cartridge-loader";
-import { keyboardManager } from "./input/keyboard-manager";
+import { GPU } from "./gpu/gpu.js";
+import { CPU } from "./cpu/cpu.js";
+import { memory } from "./memory/memory.js";
+import { input } from "./input/input.js";
+import { APU } from "./apu/apu.js";
+import { lcdControlRegister } from "./gpu/registers/lcd-control-register.js";
+import { controllerManager } from "./input/controller-manager.js";
+import { CartridgeType } from "./cartridge/cartridge-type.enum.js";
+import { Mbc1Cartridge } from "./cartridge/mbc1-cartridge.js";
+import { CartridgeLoader } from "./cartridge/cartridge-loader.js";
+import { keyboardManager } from "./input/keyboard-manager.js";
 
 export class Gameboy {
   cpu = new CPU();

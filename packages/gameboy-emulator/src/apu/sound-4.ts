@@ -1,10 +1,10 @@
-import { Enveloper } from "./enveloper";
-import { getBit, setBit } from "../helpers/binary-helpers";
-import { sound4PolynomialRegister } from "./registers/sound-4-polynomial-register";
-import { sound4EnvelopeControlRegister } from "./registers/envelope-control-registers";
-import { sound4ContinuousSelectionRegister } from "./registers/sound-4-continuous-selection-register";
-import { sound4LengthRegister } from "./registers/sound-4-length-register";
-import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
+import { Enveloper } from "./enveloper.js";
+import { getBit, setBit } from "../helpers/binary-helpers.js";
+import { sound4PolynomialRegister } from "./registers/sound-4-polynomial-register.js";
+import { sound4EnvelopeControlRegister } from "./registers/envelope-control-registers.js";
+import { sound4ContinuousSelectionRegister } from "./registers/sound-4-continuous-selection-register.js";
+import { sound4LengthRegister } from "./registers/sound-4-length-register.js";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register.js";
 
 export class Sound4 {
   private frequencyTimer = 0;

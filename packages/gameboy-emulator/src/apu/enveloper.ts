@@ -1,4 +1,4 @@
-import { EnvelopeControlRegister } from "./registers/envelope-control-registers";
+import { EnvelopeControlRegister } from "./registers/envelope-control-registers.js";
 
 export class Enveloper {
   private envelopePeriodTimer = 0;

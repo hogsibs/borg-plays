@@ -1,4 +1,4 @@
-import { RemoteAudioContext } from "./RemoteAudioContext";
+import { RemoteAudioContext } from "./RemoteAudioContext.js";
 
 export class RemoteRingBufferPlayer {
   constructor(audioContext: RemoteAudioContext, sampleBufferLength: number) {}

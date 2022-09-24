@@ -1,4 +1,4 @@
-import { RemoteImageData } from "../gpu/RemoteImageData";
+import { RemoteImageData } from "../gpu/RemoteImageData.js";
 
 export class EnhancedImageData extends RemoteImageData {
   setPixel(

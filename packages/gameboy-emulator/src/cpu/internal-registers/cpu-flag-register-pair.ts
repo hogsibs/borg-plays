@@ -1,4 +1,4 @@
-import { CpuRegister } from "../internal-registers/cpu-register";
+import { CpuRegister } from "../internal-registers/cpu-register.js";
 
 export class CpuFlagRegisterPair extends CpuRegister {
   get value() {

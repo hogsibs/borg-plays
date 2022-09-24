@@ -1,7 +1,7 @@
-import { CPU } from "../../cpu";
-import { memory } from "../../../memory/memory";
-import { CpuRegister } from "../../internal-registers/cpu-register";
-import { setBit } from "../../../helpers/binary-helpers";
+import { CPU } from "../../cpu.js";
+import { memory } from "../../../memory/memory.js";
+import { CpuRegister } from "../../internal-registers/cpu-register.js";
+import { setBit } from "../../../helpers/binary-helpers.js";
 
 export function getRotateShiftSubOperations(cpu: CPU) {
   const { registers } = cpu;

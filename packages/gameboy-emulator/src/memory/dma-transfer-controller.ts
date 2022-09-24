@@ -1,9 +1,9 @@
 import {
   ObjectAttributeMemoryRegister,
   objectAttributeMemoryRegisters,
-} from "../gpu/registers/object-attribute-memory-registers";
-import { memory } from "./memory";
-import { dmaTransferRegister } from "../gpu/registers/dma-transfer-register";
+} from "../gpu/registers/object-attribute-memory-registers.js";
+import { memory } from "./memory.js";
+import { dmaTransferRegister } from "../gpu/registers/dma-transfer-register.js";
 
 class DmaTransferController {
   private static AddressInterval = 0x100;

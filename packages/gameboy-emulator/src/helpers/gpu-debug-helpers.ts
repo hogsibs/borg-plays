@@ -1,10 +1,10 @@
-import { memory } from "../memory/memory";
-import { EnhancedImageData } from "./enhanced-image-data";
-import { getBit } from "./binary-helpers";
-import { backgroundPaletteRegister } from "../gpu/registers/background-palette-register";
-import { objectAttributeMemoryRegisters } from "../gpu/registers/object-attribute-memory-registers";
-import { objectPaletteRegisters } from "../gpu/registers/object-palette-registers";
-import { RemoteImageData } from "../gpu/RemoteImageData";
+import { memory } from "../memory/memory.js";
+import { EnhancedImageData } from "./enhanced-image-data.js";
+import { getBit } from "./binary-helpers.js";
+import { backgroundPaletteRegister } from "../gpu/registers/background-palette-register.js";
+import { objectAttributeMemoryRegisters } from "../gpu/registers/object-attribute-memory-registers.js";
+import { objectPaletteRegisters } from "../gpu/registers/object-palette-registers.js";
+import { RemoteImageData } from "../gpu/RemoteImageData.js";
 
 const colors = [
   255, // white

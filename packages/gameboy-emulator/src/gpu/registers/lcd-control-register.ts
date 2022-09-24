@@ -1,6 +1,6 @@
-import { SingleByteMemoryRegister } from "../../memory/memory-register";
-import { memory } from "../../memory/memory";
-import { getBit } from "../../helpers/binary-helpers";
+import { SingleByteMemoryRegister } from "../../memory/memory-register.js";
+import { memory } from "../../memory/memory.js";
+import { getBit } from "../../helpers/binary-helpers.js";
 
 class LcdControlRegister implements SingleByteMemoryRegister {
   offset = 0xff40;

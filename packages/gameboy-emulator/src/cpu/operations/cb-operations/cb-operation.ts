@@ -1,9 +1,9 @@
-import { CPU } from "../../cpu";
-import { getRotateShiftSubOperations } from "../cb-operations/rotate-shift-operations";
-import { getBitSubOperations } from "../cb-operations/bit-operations";
-import { getSetSubOperations } from "../cb-operations/set-operations";
-import { getResSubOperations } from "../cb-operations/res-operations";
-import { memory } from "../../../memory/memory";
+import { CPU } from "../../cpu.js";
+import { getRotateShiftSubOperations } from "../cb-operations/rotate-shift-operations.js";
+import { getBitSubOperations } from "../cb-operations/bit-operations.js";
+import { getSetSubOperations } from "../cb-operations/set-operations.js";
+import { getResSubOperations } from "../cb-operations/res-operations.js";
+import { memory } from "../../../memory/memory.js";
 
 export function createCbSubOperations(this: CPU) {
   const cpu = this;

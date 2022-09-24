@@ -1,5 +1,5 @@
-import { input } from "./input";
-import { remoteNavigator } from "./remoteNavigator";
+import { input } from "./input.js";
+import { remoteNavigator } from "./remoteNavigator.js";
 
 export enum Xbox360ControllerButtons {
   A,

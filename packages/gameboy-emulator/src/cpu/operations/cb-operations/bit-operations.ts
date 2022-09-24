@@ -1,7 +1,7 @@
-import { CPU } from "../../cpu";
-import { getBit } from "../../../helpers/binary-helpers";
-import { memory } from "../../../memory/memory";
-import { CpuRegister } from "../../internal-registers/cpu-register";
+import { CPU } from "../../cpu.js";
+import { getBit } from "../../../helpers/binary-helpers.js";
+import { memory } from "../../../memory/memory.js";
+import { CpuRegister } from "../../internal-registers/cpu-register.js";
 
 export function getBitSubOperations(cpu: CPU) {
   const { registers } = cpu;

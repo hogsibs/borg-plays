@@ -1,5 +1,5 @@
-import { SingleByteMemoryRegister } from "../../memory/memory-register";
-import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register.js";
+import { memory } from "../../memory/memory.js";
 
 export class ObjectPaletteRegister implements SingleByteMemoryRegister {
   static StartOffset = 0xff48;

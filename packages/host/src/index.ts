@@ -12,7 +12,7 @@ const io = new Server(server);
 io.on("connection", (socket) => {
   console.log("a user connected");
   for (const operation of gameboy.cpu.operationMap.values()) {
-    socket.send(operation.instruction);
+    socket.emit("message", operation.instruction);
   }
   socket.on("disconnect", () => console.log("a user disconnected"));
 });
