@@ -1,10 +1,9 @@
-import { memory } from "@/memory/memory";
-import { EnhancedImageData } from "@/helpers/enhanced-image-data";
-import { getBit } from "@/helpers/binary-helpers";
-import { backgroundPaletteRegister } from "@/gpu/registers/background-palette-register";
-import { objectAttributeMemoryRegisters } from "@/gpu/registers/object-attribute-memory-registers";
-import { objectPaletteRegisters } from "@/gpu/registers/object-palette-registers";
-
+import { backgroundPaletteRegister } from "../gpu/registers/background-palette-register";
+import { objectAttributeMemoryRegisters } from "../gpu/registers/object-attribute-memory-registers";
+import { objectPaletteRegisters } from "../gpu/registers/object-palette-registers";
+import { memory } from "../memory/memory";
+import { getBit } from "./binary-helpers";
+import { EnhancedImageData } from "./enhanced-image-data";
 
 const colors = [
   255, // white
@@ -30,7 +29,13 @@ export function backgroundTilesToImageData(): ImageData {
     // if (tileMapIndex !== 0) {
     //   debugger;
     // }
-    drawTileAt(enhancedImageData, imageDataX, imageDataY, (tileMapIndex) * 8 * 2, backgroundPaletteRegister.backgroundPalette);
+    drawTileAt(
+      enhancedImageData,
+      imageDataX,
+      imageDataY,
+      tileMapIndex * 8 * 2,
+      backgroundPaletteRegister.backgroundPalette
+    );
 
     imageDataX += 8;
 
@@ -43,11 +48,17 @@ export function backgroundTilesToImageData(): ImageData {
   return enhancedImageData;
 }
 
-function drawTileAt(imageData: EnhancedImageData, x: number, y: number, tileStart: number, palette: number[]) {
+function drawTileAt(
+  imageData: EnhancedImageData,
+  x: number,
+  y: number,
+  tileStart: number,
+  palette: number[]
+) {
   let imageDataX = x;
   let imageDataY = y;
 
-  for (let byteIndex = 0; byteIndex < 16; byteIndex+= 2) {
+  for (let byteIndex = 0; byteIndex < 16; byteIndex += 2) {
     const lowerByte = memory.readByte(0x8000 + tileStart + byteIndex);
     const higherByte = memory.readByte(0x8000 + tileStart + byteIndex + 1);
 
@@ -67,11 +78,18 @@ function drawTileAt(imageData: EnhancedImageData, x: number, y: number, tileStar
   }
 }
 
-export function drawSpriteTileAt(imageData: EnhancedImageData, x: number, y: number, charData: Uint8Array, tileStart: number, palette: number[]) {
+export function drawSpriteTileAt(
+  imageData: EnhancedImageData,
+  x: number,
+  y: number,
+  charData: Uint8Array,
+  tileStart: number,
+  palette: number[]
+) {
   let imageDataX = x;
   let imageDataY = y;
 
-  for (let byteIndex = 0; byteIndex < 16; byteIndex+= 2) {
+  for (let byteIndex = 0; byteIndex < 16; byteIndex += 2) {
     const lowerByte = charData[tileStart + byteIndex];
     const higherByte = charData[tileStart + byteIndex + 1];
 
@@ -84,7 +102,14 @@ export function drawSpriteTileAt(imageData: EnhancedImageData, x: number, y: num
 
       const color = colors[paletteColor];
       const isTransparent = paletteIndex === 0;
-      imageData.setPixel(imageDataX, imageDataY, color, color, color, isTransparent ? 0 : 255);
+      imageData.setPixel(
+        imageDataX,
+        imageDataY,
+        color,
+        color,
+        color,
+        isTransparent ? 0 : 255
+      );
       imageDataX++;
     }
 
@@ -102,14 +127,21 @@ export function drawOam(): ImageData {
   let drawAtX = 0;
   let drawAtY = 0;
 
-  objectAttributeMemoryRegisters.forEach(oamRegister => {
+  objectAttributeMemoryRegisters.forEach((oamRegister) => {
     const { characterCode, paletteNumber } = oamRegister;
     const tileCharBytePosition = characterCode * bytesPerTile;
     const currentTileBytePosition = characterDataStart + tileCharBytePosition;
 
     const palette = objectPaletteRegisters[paletteNumber].palette;
 
-    drawSpriteTileAt(oamImageDate, drawAtX, drawAtY, memory.memoryBytes, currentTileBytePosition, palette);
+    drawSpriteTileAt(
+      oamImageDate,
+      drawAtX,
+      drawAtY,
+      memory.memoryBytes,
+      currentTileBytePosition,
+      palette
+    );
     drawAtX += 8;
 
     if (drawAtX === 80) {
@@ -128,30 +160,38 @@ export function drawOamToBackground(): ImageData {
   const characterDataStart = 0x8000;
   oamImageDate = new EnhancedImageData(320, 320);
 
-
-  objectAttributeMemoryRegisters.forEach(oamRegister => {
+  objectAttributeMemoryRegisters.forEach((oamRegister) => {
     const { characterCode, paletteNumber } = oamRegister;
     const tileCharBytePosition = characterCode * bytesPerTile;
     const currentTileBytePosition = characterDataStart + tileCharBytePosition;
 
     const palette = objectPaletteRegisters[paletteNumber].palette;
 
-    drawSpriteTileAt(oamImageDate, oamRegister.xPosition - 8, oamRegister.yPosition - 16, memory.memoryBytes, currentTileBytePosition, palette);
+    drawSpriteTileAt(
+      oamImageDate,
+      oamRegister.xPosition - 8,
+      oamRegister.yPosition - 16,
+      memory.memoryBytes,
+      currentTileBytePosition,
+      palette
+    );
   });
 
   return oamImageDate;
 }
 
-
 export function characterImageData(): ImageData {
-  const characterData = memory.memoryBytes.subarray(CharacterDataStart, CharacterDataEnd);
+  const characterData = memory.memoryBytes.subarray(
+    CharacterDataStart,
+    CharacterDataEnd
+  );
   const enhancedImageData = new EnhancedImageData(8, 3072);
 
   let imageDataX = 0;
   let imageDataY = 0;
 
   // two bytes build a 8 x 1 line
-  for (let byteIndex = 0; byteIndex < characterData.length; byteIndex+= 2) {
+  for (let byteIndex = 0; byteIndex < characterData.length; byteIndex += 2) {
     const lowerByte = characterData[byteIndex];
     const higherByte = characterData[byteIndex + 1];
 
@@ -165,7 +205,7 @@ export function characterImageData(): ImageData {
       imageDataX++;
     }
 
-    imageDataY++
+    imageDataY++;
     imageDataX = 0;
   }
 

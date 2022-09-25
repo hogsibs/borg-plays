@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 class DmaTransferRegister implements SingleByteMemoryRegister {
   offset = 0xff46;
-  name = 'DMA';
+  name = "DMA";
 
   get value() {
     return memory.readByte(this.offset);

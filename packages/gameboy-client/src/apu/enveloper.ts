@@ -1,4 +1,4 @@
-import { EnvelopeControlRegister } from "@/apu/registers/envelope-control-registers";
+import { EnvelopeControlRegister } from "./registers/envelope-control-registers";
 
 export class Enveloper {
   private envelopePeriodTimer = 0;
@@ -7,8 +7,11 @@ export class Enveloper {
     this.envelopePeriodTimer = value;
   }
 
-  clockVolume(currentVolume: number, envelopeRegister: EnvelopeControlRegister) {
-    const { lengthOfEnvelopeStep, isEnvelopeRising} = envelopeRegister;
+  clockVolume(
+    currentVolume: number,
+    envelopeRegister: EnvelopeControlRegister
+  ) {
+    const { lengthOfEnvelopeStep, isEnvelopeRising } = envelopeRegister;
     if (lengthOfEnvelopeStep === 0) {
       return currentVolume;
     }

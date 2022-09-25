@@ -1,10 +1,10 @@
-import { Enveloper } from "@/apu/enveloper";
-import { getBit, setBit } from "@/helpers/binary-helpers";
-import { sound4PolynomialRegister } from "@/apu/registers/sound-4-polynomial-register";
-import { sound4EnvelopeControlRegister } from "@/apu/registers/envelope-control-registers";
-import { sound4ContinuousSelectionRegister } from "@/apu/registers/sound-4-continuous-selection-register";
-import { sound4LengthRegister } from "@/apu/registers/sound-4-length-register";
-import { soundsOnRegister } from "@/apu/registers/sound-control-registers/sounds-on-register";
+import { getBit, setBit } from "../helpers/binary-helpers";
+import { Enveloper } from "./enveloper";
+import { sound4EnvelopeControlRegister } from "./registers/envelope-control-registers";
+import { sound4ContinuousSelectionRegister } from "./registers/sound-4-continuous-selection-register";
+import { sound4LengthRegister } from "./registers/sound-4-length-register";
+import { sound4PolynomialRegister } from "./registers/sound-4-polynomial-register";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
 
 export class Sound4 {
   private frequencyTimer = 0;
@@ -30,7 +30,9 @@ export class Sound4 {
   }
 
   getFrequencyPeriod() {
-    return sound4PolynomialRegister.divisor << sound4PolynomialRegister.clockShift;
+    return (
+      sound4PolynomialRegister.divisor << sound4PolynomialRegister.clockShift
+    );
   }
 
   playSound() {
@@ -44,7 +46,9 @@ export class Sound4 {
 
     // Initialize envelope
     this.volume = sound4EnvelopeControlRegister.initialVolume;
-    this.enveloper.initializeTimer(sound4EnvelopeControlRegister.lengthOfEnvelopeStep);
+    this.enveloper.initializeTimer(
+      sound4EnvelopeControlRegister.lengthOfEnvelopeStep
+    );
 
     // Initialize length
     this.lengthTimer = 64 - sound4LengthRegister.soundLength;
@@ -61,7 +65,10 @@ export class Sound4 {
   }
 
   clockVolume() {
-    this.volume = this.enveloper.clockVolume(this.volume, sound4EnvelopeControlRegister);
+    this.volume = this.enveloper.clockVolume(
+      this.volume,
+      sound4EnvelopeControlRegister
+    );
   }
 
   stepLinearFeedbackShift() {
@@ -78,7 +85,7 @@ export class Sound4 {
   }
 
   getSample() {
-    const sample = ~(this.linearFeedbackShift) & 0b1;
+    const sample = ~this.linearFeedbackShift & 0b1;
 
     if (soundsOnRegister.isSound4On && this.volume > 0) {
       const volumeAdjustedSample = sample * this.volume;

@@ -1,9 +1,9 @@
-import { Cartridge } from "@/cartridge/cartridge";
-import { dmaTransferController } from "@/memory/dma-transfer-controller";
-import { input } from "@/input/input";
-import { dividerRegister } from "@/cpu/registers/divider-register";
-import { dmaTransferRegister } from "@/gpu/registers/dma-transfer-register";
-import { controllerDataRegister } from "@/input/port-mode-registers/controller-data-register";
+import { Cartridge } from "../cartridge/cartridge";
+import { dividerRegister } from "../cpu/registers/divider-register";
+import { dmaTransferRegister } from "../gpu/registers/dma-transfer-register";
+import { input } from "../input/input";
+import { controllerDataRegister } from "../input/port-mode-registers/controller-data-register";
+import { dmaTransferController } from "./dma-transfer-controller";
 
 const memoryBuffer = new ArrayBuffer(0x10000);
 const memoryView = new DataView(memoryBuffer);
@@ -61,7 +61,6 @@ export class Memory {
       return;
     }
 
-
     if (address === dividerRegister.offset) {
       memoryView.setUint8(dividerRegister.offset, 0);
     }
@@ -84,7 +83,7 @@ export class Memory {
 export const memory = new Memory();
 
 function isAccessingCartridge(address: number): boolean {
-  return address <= 0x7FFF || (address >= 0xA000 && address <= 0xBFFF);
+  return address <= 0x7fff || (address >= 0xa000 && address <= 0xbfff);
 }
 
 function isDmaTransfer(address: number) {

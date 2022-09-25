@@ -1,13 +1,11 @@
-import { memory } from "@/memory/memory";
-import { Enveloper } from "@/apu/enveloper";
-import { sound1EnvelopeControlRegister } from "@/apu/registers/envelope-control-registers";
-import { sweepControlRegister } from "@/apu/registers/sweep-control-register";
-import {
-  sound1LengthAndDutyCycleRegister,
-} from "@/apu/registers/length-and-duty-cycle-registers";
-import { sound1HighOrderFrequencyRegister } from "@/apu/registers/high-order-frequency-registers";
-import { sound1LowOrderFrequencyRegister } from "@/apu/registers/low-order-frequency-registers";
-import { soundsOnRegister } from "@/apu/registers/sound-control-registers/sounds-on-register";
+import { memory } from "../memory/memory";
+import { Enveloper } from "./enveloper";
+import { sound1EnvelopeControlRegister } from "./registers/envelope-control-registers";
+import { sound1HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers";
+import { sound1LengthAndDutyCycleRegister } from "./registers/length-and-duty-cycle-registers";
+import { sound1LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
+import { sweepControlRegister } from "./registers/sweep-control-register";
 
 export class Sound1 {
   private dutyCycles = [
@@ -35,11 +33,11 @@ export class Sound1 {
       sound1HighOrderFrequencyRegister.isInitialize = false;
     }
 
-      this.frequencyTimer -= cycles; // count down the frequency timer
-      if (this.frequencyTimer <= 0) {
-        this.frequencyTimer += this.frequencyPeriod; // reload timer with the current frequency period
-        this.positionInDutyCycle = (this.positionInDutyCycle + 1) % 8; // advance to next value in current duty cycle, reset to 0 at 8 to loop back
-      }
+    this.frequencyTimer -= cycles; // count down the frequency timer
+    if (this.frequencyTimer <= 0) {
+      this.frequencyTimer += this.frequencyPeriod; // reload timer with the current frequency period
+      this.positionInDutyCycle = (this.positionInDutyCycle + 1) % 8; // advance to next value in current duty cycle, reset to 0 at 8 to loop back
+    }
   }
 
   playSound() {
@@ -52,7 +50,9 @@ export class Sound1 {
 
     // Initialize envelope
     this.volume = sound1EnvelopeControlRegister.initialVolume;
-    this.enveloper.initializeTimer(sound1EnvelopeControlRegister.lengthOfEnvelopeStep);
+    this.enveloper.initializeTimer(
+      sound1EnvelopeControlRegister.lengthOfEnvelopeStep
+    );
 
     // Initialize length
     this.lengthTimer = 64 - sound1LengthAndDutyCycleRegister.soundLength;
@@ -69,7 +69,10 @@ export class Sound1 {
   }
 
   clockVolume() {
-    this.volume = this.enveloper.clockVolume(this.volume, sound1EnvelopeControlRegister);
+    this.volume = this.enveloper.clockVolume(
+      this.volume,
+      sound1EnvelopeControlRegister
+    );
   }
 
   clockSweep() {
@@ -85,7 +88,7 @@ export class Sound1 {
 
         if (newFrequency < 2048 && sweepControlRegister.sweepAmount > 0) {
           this.shadowFrequency = newFrequency;
-          this.frequencyPeriod = ((2048 - newFrequency) * 4);
+          this.frequencyPeriod = (2048 - newFrequency) * 4;
         }
       }
     }
@@ -101,7 +104,9 @@ export class Sound1 {
   private calculateNewSweepFrequency() {
     const { sweepAmount, isSweepIncrease } = sweepControlRegister;
     const shiftedFrequency = this.shadowFrequency >> sweepAmount;
-    const shiftFrequencyBy = isSweepIncrease ? -shiftedFrequency : shiftedFrequency;
+    const shiftFrequencyBy = isSweepIncrease
+      ? -shiftedFrequency
+      : shiftedFrequency;
 
     const newFrequency = this.shadowFrequency + shiftFrequencyBy;
 
@@ -109,11 +114,14 @@ export class Sound1 {
       soundsOnRegister.isSound1On = false;
     }
 
-    return newFrequency
+    return newFrequency;
   }
 
   getSample() {
-    const sample = this.dutyCycles[sound1LengthAndDutyCycleRegister.waveformDutyCycle][this.positionInDutyCycle];
+    const sample =
+      this.dutyCycles[sound1LengthAndDutyCycleRegister.waveformDutyCycle][
+        this.positionInDutyCycle
+      ];
 
     if (soundsOnRegister.isSound1On) {
       const volumeAdjustedSample = sample * this.volume;
@@ -124,7 +132,8 @@ export class Sound1 {
   }
 
   private getFrequencyPeriod() {
-    const rawValue = memory.readWord(sound1LowOrderFrequencyRegister.offset) & 0b11111111111;
-    return ((2048 - rawValue) * 4);
+    const rawValue =
+      memory.readWord(sound1LowOrderFrequencyRegister.offset) & 0b11111111111;
+    return (2048 - rawValue) * 4;
   }
 }

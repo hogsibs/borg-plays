@@ -1,10 +1,10 @@
-import { CPU } from "@/cpu/cpu";
+import { CPU } from "../cpu";
 
 export function createRotateShiftOperations(this: CPU) {
   const { registers } = this;
 
   this.addOperation({
-    instruction: 'RLCA',
+    instruction: "RLCA",
     byteDefinition: 0b00_000_111,
     cycleTime: 1,
     byteLength: 1,
@@ -16,11 +16,11 @@ export function createRotateShiftOperations(this: CPU) {
       registers.flags.N = 0;
 
       registers.A.value = (registers.A.value << 1) + bit7;
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RLA',
+    instruction: "RLA",
     byteDefinition: 0b00_010_111,
     cycleTime: 1,
     byteLength: 1,
@@ -33,11 +33,11 @@ export function createRotateShiftOperations(this: CPU) {
       registers.flags.Z = 0;
 
       registers.A.value = result;
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RRCA',
+    instruction: "RRCA",
     byteDefinition: 0b00_001_111,
     cycleTime: 1,
     byteLength: 1,
@@ -49,11 +49,11 @@ export function createRotateShiftOperations(this: CPU) {
       registers.flags.N = 0;
 
       registers.A.value = (registers.A.value >> 1) + (bit0 << 7);
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RRA',
+    instruction: "RRA",
     byteDefinition: 0b00_011_111,
     cycleTime: 1,
     byteLength: 1,
@@ -66,6 +66,6 @@ export function createRotateShiftOperations(this: CPU) {
       registers.flags.Z = 0;
 
       registers.A.value = result;
-    }
+    },
   });
 }

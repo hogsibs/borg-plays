@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class ScrollXRegister implements SingleByteMemoryRegister {
   offset = 0xff43;
-  name = 'SCX';
+  name = "SCX";
 
   get value() {
     return memory.readByte(this.offset);

@@ -1,10 +1,10 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
-import { getBit } from "@/helpers/binary-helpers";
+import { getBit } from "../../helpers/binary-helpers";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 class LcdControlRegister implements SingleByteMemoryRegister {
   offset = 0xff40;
-  name = 'LCDC';
+  name = "LCDC";
 
   get value() {
     return memory.readByte(this.offset);
@@ -23,7 +23,7 @@ class LcdControlRegister implements SingleByteMemoryRegister {
   }
 
   get objectHeight() {
-    const objectBlockCompositionFlag = getBit(this.value, 2)
+    const objectBlockCompositionFlag = getBit(this.value, 2);
     return objectBlockCompositionFlag === 0 ? 8 : 16;
   }
 

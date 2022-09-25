@@ -1,20 +1,24 @@
-import { input } from "@/input/input";
+import { input } from "./input";
 
 export class KeyboardManager {
-  down = 'ArrowDown';
-  up = 'ArrowUp';
-  left = 'ArrowLeft';
-  right = 'ArrowRight';
+  down = "ArrowDown";
+  up = "ArrowUp";
+  left = "ArrowLeft";
+  right = "ArrowRight";
 
-  a = 'KeyA';
-  b = 'KeyB';
+  a = "KeyA";
+  b = "KeyB";
 
-  start = 'Enter';
-  select = 'ControlRight';
+  start = "Enter";
+  select = "ControlRight";
 
   constructor() {
-    document.addEventListener('keydown', event => this.handleKeyEvent(event.code, true));
-    document.addEventListener('keyup', event => this.handleKeyEvent(event.code, false));
+    document.addEventListener("keydown", (event) =>
+      this.handleKeyEvent(event.code, true)
+    );
+    document.addEventListener("keyup", (event) =>
+      this.handleKeyEvent(event.code, false)
+    );
   }
 
   private handleKeyEvent(keyCode: string, isPressed: boolean) {

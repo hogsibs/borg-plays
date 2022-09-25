@@ -26,5 +26,5 @@ export enum CartridgeType {
   POCKET_CAMERA = 0xfc,
   BANDAI_TAMA5,
   HuC3,
-  HuC1_RAM_BATTERY
+  HuC1_RAM_BATTERY,
 }

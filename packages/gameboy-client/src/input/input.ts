@@ -1,4 +1,4 @@
-import { setBit } from "@/helpers/binary-helpers";
+import { setBit } from "../helpers/binary-helpers";
 
 export class Input {
   isPressingUp = false;

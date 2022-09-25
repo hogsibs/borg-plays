@@ -2,7 +2,7 @@ import { CpuRegisterCollection } from "./cpu-register-collection";
 
 const registers = new CpuRegisterCollection();
 
-test('Setting register overflows properly', () => {
+test("Setting register overflows properly", () => {
   registers.A.value = 255;
   expect(registers.A.value).toBe(255);
 
@@ -15,7 +15,7 @@ test.each([
   registers.flags.isSubtraction,
   registers.flags.isHalfCarry,
   registers.flags.isCarry,
-])('flag helpers properly set and clear their respective bit', flag => {
+])("flag helpers properly set and clear their respective bit", (flag) => {
   expect(flag).toBe(false);
 
   flag = true;
@@ -30,7 +30,7 @@ test.each([
   registers.flags.N,
   registers.flags.H,
   registers.flags.CY,
-])('flags properly set and clear their respective bit', flag => {
+])("flags properly set and clear their respective bit", (flag) => {
   expect(flag).toBe(0);
 
   flag = 1;

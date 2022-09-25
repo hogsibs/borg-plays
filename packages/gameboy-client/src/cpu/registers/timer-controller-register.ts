@@ -1,16 +1,11 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 class TimerControllerRegister implements SingleByteMemoryRegister {
   offset = 0xff07;
-  name = 'TAC';
+  name = "TAC";
 
-  private inputClockSpeedValueToCycles = [
-    1024,
-    16,
-    64,
-    256,
-  ];
+  private inputClockSpeedValueToCycles = [1024, 16, 64, 256];
 
   get value() {
     return memory.readByte(this.offset);

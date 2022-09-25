@@ -1,9 +1,8 @@
-import { CpuRegister } from "@/cpu/internal-registers/cpu-register";
+import { CpuRegister } from "./cpu-register";
 
-export class CpuFlagRegister extends CpuRegister{
-  
+export class CpuFlagRegister extends CpuRegister {
   get Z() {
-    return (this.value >> 7);
+    return this.value >> 7;
   }
   set Z(newValue: number) {
     if (newValue === 1) {
@@ -19,9 +18,8 @@ export class CpuFlagRegister extends CpuRegister{
     this.Z = newValue ? 1 : 0;
   }
 
-
   get N() {
-    return ((this.value >> 6) & 1);
+    return (this.value >> 6) & 1;
   }
   set N(newValue: number) {
     if (newValue === 1) {
@@ -37,9 +35,8 @@ export class CpuFlagRegister extends CpuRegister{
     this.N = newValue ? 1 : 0;
   }
 
-
   get H() {
-    return ((this.value >> 5) & 1);
+    return (this.value >> 5) & 1;
   }
   set H(newValue: number) {
     if (newValue === 1) {
@@ -55,9 +52,8 @@ export class CpuFlagRegister extends CpuRegister{
     this.H = newValue ? 1 : 0;
   }
 
-
   get CY() {
-    return ((this.value >> 4) & 1);
+    return (this.value >> 4) & 1;
   }
   set CY(newValue: number) {
     if (newValue === 1) {

@@ -1,5 +1,5 @@
-import { MultiByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { MultiByteMemoryRegister } from "../../memory/memory-register";
 
 export class ObjectAttributeMemoryRegister implements MultiByteMemoryRegister {
   static StartOffset = 0xfe00;
@@ -11,7 +11,7 @@ export class ObjectAttributeMemoryRegister implements MultiByteMemoryRegister {
 
   constructor(index: number) {
     this.offset = index + ObjectAttributeMemoryRegister.StartOffset;
-    this.name = 'OBJ' + index;
+    this.name = "OBJ" + index;
   }
 
   getValueAt(index: number) {
@@ -56,13 +56,20 @@ export class ObjectAttributeMemoryRegister implements MultiByteMemoryRegister {
 
 function createObjectAttributeMemoryRegisters() {
   const objectAttributeMemoryRegisters: ObjectAttributeMemoryRegister[] = [];
-  const memorySize = ObjectAttributeMemoryRegister.EndOffset - ObjectAttributeMemoryRegister.StartOffset;
+  const memorySize =
+    ObjectAttributeMemoryRegister.EndOffset -
+    ObjectAttributeMemoryRegister.StartOffset;
 
-  for (let i = 0; i <= memorySize; i += ObjectAttributeMemoryRegister.BytesPerRegister) {
+  for (
+    let i = 0;
+    i <= memorySize;
+    i += ObjectAttributeMemoryRegister.BytesPerRegister
+  ) {
     objectAttributeMemoryRegisters.push(new ObjectAttributeMemoryRegister(i));
   }
 
   return objectAttributeMemoryRegisters;
 }
 
-export const objectAttributeMemoryRegisters = createObjectAttributeMemoryRegisters();
+export const objectAttributeMemoryRegisters =
+  createObjectAttributeMemoryRegisters();

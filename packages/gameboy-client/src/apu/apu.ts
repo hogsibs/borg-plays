@@ -1,13 +1,14 @@
-import { CPU } from "@/cpu/cpu";
-import { Sound1 } from "@/apu/sound-1";
-import { Sound2 } from "@/apu/sound-2";
-import { Sound4 } from "@/apu/sound-4";
-import { Sound3 } from "@/apu/sound-3";
-import { RingBufferPlayer } from "@/apu/ring-buffer/ring-buffer-player";
+import { CPU } from "../cpu/cpu";
+import { RingBufferPlayer } from "./ring-buffer/ring-buffer-player";
+import { Sound1 } from "./sound-1";
+import { Sound2 } from "./sound-2";
+import { Sound3 } from "./sound-3";
+import { Sound4 } from "./sound-4";
 
 export class APU {
   private static FrameSequencerHertz = 512;
-  private readonly FrameSequencerInterval = CPU.OperatingHertz / APU.FrameSequencerHertz;
+  private readonly FrameSequencerInterval =
+    CPU.OperatingHertz / APU.FrameSequencerHertz;
 
   private audioContext = new AudioContext({ sampleRate: 44100 });
 
@@ -29,11 +30,19 @@ export class APU {
 
     try {
       const test = SharedArrayBuffer;
-    } catch(error) {
-      console.log('%cAudio requires SharedArrayBuffer','font-family:sans-serif; font-size: 20px');
-      console.log('This emulator uses a SharedArrayBuffer for buffered audio on a separate thread. To use ' +
-        'shared array buffer you must use https and add the following headers to your server:');
-      console.log(`%c'Cross-Origin-Opener-Policy': 'same-origin', \n'Cross-Origin-Embedder-Policy': 'require-corp'`,'font-family:monospace;');
+    } catch (error) {
+      console.log(
+        "%cAudio requires SharedArrayBuffer",
+        "font-family:sans-serif; font-size: 20px"
+      );
+      console.log(
+        "This emulator uses a SharedArrayBuffer for buffered audio on a separate thread. To use " +
+          "shared array buffer you must use https and add the following headers to your server:"
+      );
+      console.log(
+        `%c'Cross-Origin-Opener-Policy': 'same-origin', \n'Cross-Origin-Embedder-Policy': 'require-corp'`,
+        "font-family:monospace;"
+      );
     }
 
     this.ringBufferPlayer = new RingBufferPlayer(this.audioContext, 1024);
@@ -70,7 +79,7 @@ export class APU {
 
     this.sampleCycleCounter += cycles;
     if (this.sampleCycleCounter >= this.cyclesPerSample) {
-      this.sampleChannels()
+      this.sampleChannels();
       this.sampleCycleCounter -= this.cyclesPerSample;
     }
 
@@ -82,7 +91,12 @@ export class APU {
   }
 
   private sampleChannels() {
-    const sample = (this.sound1.getSample() + this.sound2.getSample() + this.sound3.getSample() + this.sound4.getSample()) / 4;
+    const sample =
+      (this.sound1.getSample() +
+        this.sound2.getSample() +
+        this.sound3.getSample() +
+        this.sound4.getSample()) /
+      4;
     this.ringBufferPlayer.writeSample(sample);
   }
 
@@ -102,7 +116,7 @@ export class APU {
   private frameSequencerStep = 0;
 
   private advanceFrameSequencer() {
-    switch(this.frameSequencerStep) {
+    switch (this.frameSequencerStep) {
       case 0:
         this.clockLength();
         break;

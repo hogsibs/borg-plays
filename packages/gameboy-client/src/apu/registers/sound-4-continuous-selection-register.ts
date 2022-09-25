@@ -1,11 +1,12 @@
-import { memory } from "@/memory/memory";
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { setBit } from "@/helpers/binary-helpers";
+import { setBit } from "../../helpers/binary-helpers";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
-
-export class Sound4ContinuousSelectionRegister implements SingleByteMemoryRegister {
-  offset = 0xff23
-  name = 'NR44'
+export class Sound4ContinuousSelectionRegister
+  implements SingleByteMemoryRegister
+{
+  offset = 0xff23;
+  name = "NR44";
   get value() {
     return memory.readByte(this.offset);
   }
@@ -25,5 +26,5 @@ export class Sound4ContinuousSelectionRegister implements SingleByteMemoryRegist
   }
 }
 
-export const sound4ContinuousSelectionRegister = new Sound4ContinuousSelectionRegister();
-
+export const sound4ContinuousSelectionRegister =
+  new Sound4ContinuousSelectionRegister();

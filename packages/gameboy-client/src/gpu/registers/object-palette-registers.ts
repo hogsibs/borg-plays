@@ -1,15 +1,15 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class ObjectPaletteRegister implements SingleByteMemoryRegister {
   static StartOffset = 0xff48;
 
   offset: number;
-  name: string
+  name: string;
 
   constructor(index: number) {
     this.offset = ObjectPaletteRegister.StartOffset + index;
-    this.name = 'OBP' + index;
+    this.name = "OBP" + index;
   }
 
   get value() {
@@ -31,4 +31,7 @@ export class ObjectPaletteRegister implements SingleByteMemoryRegister {
   }
 }
 
-export const objectPaletteRegisters = [new ObjectPaletteRegister(0), new ObjectPaletteRegister(1)];
+export const objectPaletteRegisters = [
+  new ObjectPaletteRegister(0),
+  new ObjectPaletteRegister(1),
+];

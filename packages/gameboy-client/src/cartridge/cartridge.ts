@@ -1,5 +1,4 @@
 import { CartridgeType } from "./cartridge-type.enum";
-import { Mbc1Cartridge } from "@/cartridge/mbc1-cartridge";
 
 export class Cartridge {
   static EntryPointOffset = 0x100;
@@ -8,7 +7,7 @@ export class Cartridge {
     CartridgeType.MBC1_RAM_BATTERY,
     CartridgeType.MBC2_BATTERY,
     CartridgeType.MBC3_RAM_BATTERY,
-  ]
+  ];
 
   protected gameDataView: DataView;
   protected gameBytes: Uint8Array;
@@ -42,7 +41,10 @@ export class Cartridge {
     const titleAreaStartOffset = 0x134;
     const titleAreaEndOffset = 0x143;
     const textDecoder = new TextDecoder();
-    const titleBytes = this.gameBytes.subarray(titleAreaStartOffset, titleAreaEndOffset);
+    const titleBytes = this.gameBytes.subarray(
+      titleAreaStartOffset,
+      titleAreaEndOffset
+    );
     return textDecoder.decode(titleBytes);
   }
 
@@ -61,14 +63,7 @@ export class Cartridge {
     const sizeOffset = 0x148;
     const sizeCode = this.gameDataView.getUint8(sizeOffset);
     const sizes = [
-      0x08000,
-      0x010000,
-      0x020000,
-      0x040000,
-      0x080000,
-      0x100000,
-      0x200000,
-      4096,
+      0x08000, 0x010000, 0x020000, 0x040000, 0x080000, 0x100000, 0x200000, 4096,
       8192,
     ];
 
@@ -78,14 +73,7 @@ export class Cartridge {
   get ramSize() {
     const sizeOffset = 0x149;
     const sizeCode = this.gameDataView.getUint8(sizeOffset);
-    const sizes = [
-      0,
-      0x002000,
-      0x008000,
-      0x032000,
-      0x128000,
-      0x512000,
-    ];
+    const sizes = [0, 0x002000, 0x008000, 0x032000, 0x128000, 0x512000];
 
     return sizes[sizeCode];
   }

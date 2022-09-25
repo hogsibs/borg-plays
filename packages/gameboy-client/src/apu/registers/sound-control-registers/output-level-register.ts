@@ -1,10 +1,9 @@
-import { memory } from "@/memory/memory";
+import { memory } from "../../../memory/memory";
 import { SingleByteMemoryRegister } from "../../../memory/memory-register";
-
 
 export class OutputLevelRegister implements SingleByteMemoryRegister {
   offset = 0xff24;
-  name = 'NR50';
+  name = "NR50";
 
   get value() {
     return memory.readByte(this.offset);

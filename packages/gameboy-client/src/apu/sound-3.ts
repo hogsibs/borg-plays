@@ -1,11 +1,10 @@
-import { memory } from "@/memory/memory";
-import { sound3HighOrderFrequencyRegister } from "@/apu/registers/high-order-frequency-registers";
-import { sound3OutputLevelRegister } from "@/apu/registers/sound-3-output-level-register";
-import { sound3LowOrderFrequencyRegister } from "@/apu/registers/low-order-frequency-registers";
-import { soundsOnRegister } from "@/apu/registers/sound-control-registers/sounds-on-register";
-import { getLowerNibble, getUpperNibble } from "@/helpers/binary-helpers";
-import { sound3LengthRegister } from "@/apu/registers/sound-3-length-register";
-
+import { getLowerNibble, getUpperNibble } from "../helpers/binary-helpers";
+import { memory } from "../memory/memory";
+import { sound3HighOrderFrequencyRegister } from "./registers/high-order-frequency-registers";
+import { sound3LowOrderFrequencyRegister } from "./registers/low-order-frequency-registers";
+import { sound3LengthRegister } from "./registers/sound-3-length-register";
+import { sound3OutputLevelRegister } from "./registers/sound-3-output-level-register";
+import { soundsOnRegister } from "./registers/sound-control-registers/sounds-on-register";
 
 export class Sound3 {
   private frequencyTimer = 0;
@@ -62,12 +61,20 @@ export class Sound3 {
 
   getSample() {
     const memoryAddress = Math.floor(this.waveTablePosition / 2);
-    const waveData = memory.readByte(this.waveTableMemoryAddress + memoryAddress);
+    const waveData = memory.readByte(
+      this.waveTableMemoryAddress + memoryAddress
+    );
     const isFirstNibble = this.waveTablePosition % 2 === 1; // High nibble holds first sample, low nibble second.
-    const sample = isFirstNibble ? getLowerNibble(waveData) : getUpperNibble(waveData);
-    const volumeAdjustedSample = sample >> this.shifts[sound3OutputLevelRegister.outputLevel];
+    const sample = isFirstNibble
+      ? getLowerNibble(waveData)
+      : getUpperNibble(waveData);
+    const volumeAdjustedSample =
+      sample >> this.shifts[sound3OutputLevelRegister.outputLevel];
 
-    if (soundsOnRegister.isSound3On && sound3OutputLevelRegister.outputLevel !== 0) {
+    if (
+      soundsOnRegister.isSound3On &&
+      sound3OutputLevelRegister.outputLevel !== 0
+    ) {
       return volumeAdjustedSample / 15; // TODO: Revisit the proper volume controls of / 7.5 -1 to get a range of 1 to -1
     } else {
       return 0;
@@ -75,7 +82,8 @@ export class Sound3 {
   }
 
   private getFrequencyPeriod() {
-    const rawValue = memory.readWord(sound3LowOrderFrequencyRegister.offset) & 0b11111111111;
+    const rawValue =
+      memory.readWord(sound3LowOrderFrequencyRegister.offset) & 0b11111111111;
     return (2048 - rawValue) * 2;
   }
 }

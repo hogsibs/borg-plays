@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class TimerModuloRegister implements SingleByteMemoryRegister {
   offset = 0xff06;
-  name = 'TMA';
+  name = "TMA";
 
   get value() {
     return memory.readByte(this.offset);

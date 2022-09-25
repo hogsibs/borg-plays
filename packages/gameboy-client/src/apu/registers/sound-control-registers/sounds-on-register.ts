@@ -1,10 +1,10 @@
-import { memory } from "@/memory/memory";
+import { setBit } from "../../../helpers/binary-helpers";
+import { memory } from "../../../memory/memory";
 import { SingleByteMemoryRegister } from "../../../memory/memory-register";
-import { setBit } from "@/helpers/binary-helpers";
 
 class SoundsOnRegister implements SingleByteMemoryRegister {
   offset = 0xff26;
-  name = 'NR52';
+  name = "NR52";
 
   get value() {
     return memory.readByte(this.offset);

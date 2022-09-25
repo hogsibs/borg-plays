@@ -1,6 +1,5 @@
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
 import { SingleByteMemoryRegister } from "../../memory/memory-register";
-
 
 export class LowOrderFrequencyRegisters implements SingleByteMemoryRegister {
   offset: number;
@@ -16,6 +15,15 @@ export class LowOrderFrequencyRegisters implements SingleByteMemoryRegister {
   }
 }
 
-export const sound1LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(0xff13, 'NR13');
-export const sound2LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(0xff18, 'NR23');
-export const sound3LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(0xff1d, 'NR33');
+export const sound1LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(
+  0xff13,
+  "NR13"
+);
+export const sound2LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(
+  0xff18,
+  "NR23"
+);
+export const sound3LowOrderFrequencyRegister = new LowOrderFrequencyRegisters(
+  0xff1d,
+  "NR33"
+);

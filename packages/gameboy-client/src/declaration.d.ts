@@ -1,1 +1,1 @@
-declare module '*.node.js';
+declare module "*.node.js";

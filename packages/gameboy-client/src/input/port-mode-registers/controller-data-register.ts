@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 class ControllerDataRegister implements SingleByteMemoryRegister {
   offset = 0xff00;
-  name = 'P1';
+  name = "P1";
 
   get value() {
     return memory.readByte(this.offset);

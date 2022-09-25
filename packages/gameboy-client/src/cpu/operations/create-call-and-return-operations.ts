@@ -1,11 +1,11 @@
-import { memory } from "@/memory/memory";
-import { CPU } from "@/cpu/cpu";
+import { memory } from "../../memory/memory";
+import { CPU } from "../cpu";
 
 enum FlagCondition {
   NZ,
   Z,
   NC,
-  C
+  C,
 }
 
 // ****************
@@ -31,13 +31,12 @@ export function createCallAndReturnOperations(this: CPU) {
       cpu.pushToStack(returnToAddress);
 
       registers.programCounter.value = callToAddress;
-    }
+    },
   });
 
-
-// ****************
-// * Call cc, nn
-// ****************
+  // ****************
+  // * Call cc, nn
+  // ****************
   function getCallConditionByteDefinition(flagCondition: FlagCondition) {
     return (0b11 << 6) + (flagCondition << 3) + 0b100;
   }
@@ -64,7 +63,7 @@ export function createCallAndReturnOperations(this: CPU) {
       } else {
         registers.programCounter.value += 2; // Skip to next operation after the word value following this one
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -89,7 +88,7 @@ export function createCallAndReturnOperations(this: CPU) {
       } else {
         registers.programCounter.value += 2; // Skip to next operation after the word value following this one
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -114,7 +113,7 @@ export function createCallAndReturnOperations(this: CPU) {
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -139,44 +138,42 @@ export function createCallAndReturnOperations(this: CPU) {
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
-
-// ****************
-// * Return
-// ****************
+  // ****************
+  // * Return
+  // ****************
   this.addOperation({
-    instruction: 'RET',
+    instruction: "RET",
     byteDefinition: 0b11_001_001,
     byteLength: 1,
     cycleTime: 4,
     execute() {
       registers.programCounter.value = cpu.popFromStack();
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RETI',
+    instruction: "RETI",
     byteDefinition: 0b11_011_001,
     byteLength: 1,
     cycleTime: 4,
     execute() {
       registers.programCounter.value = cpu.popFromStack();
       cpu.isInterruptMasterEnable = true;
-    }
+    },
   });
 
-
-// ****************
-// * Return cc
-// ****************
+  // ****************
+  // * Return cc
+  // ****************
   function getRetConditionByteDefinition(flagCondition: FlagCondition) {
     return (0b11 << 6) + (flagCondition << 3);
   }
 
   this.addOperation({
-    instruction: 'RET NZ',
+    instruction: "RET NZ",
     byteDefinition: getRetConditionByteDefinition(FlagCondition.NZ),
     byteLength: 1,
     get cycleTime() {
@@ -186,11 +183,11 @@ export function createCallAndReturnOperations(this: CPU) {
       if (!registers.flags.isResultZero) {
         registers.programCounter.value = cpu.popFromStack();
       }
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RET Z',
+    instruction: "RET Z",
     byteDefinition: getRetConditionByteDefinition(FlagCondition.Z),
     byteLength: 1,
     get cycleTime() {
@@ -200,11 +197,11 @@ export function createCallAndReturnOperations(this: CPU) {
       if (registers.flags.isResultZero) {
         registers.programCounter.value = cpu.popFromStack();
       }
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RET NC',
+    instruction: "RET NC",
     byteDefinition: getRetConditionByteDefinition(FlagCondition.NC),
     byteLength: 1,
     get cycleTime() {
@@ -214,11 +211,11 @@ export function createCallAndReturnOperations(this: CPU) {
       if (!registers.flags.isCarry) {
         registers.programCounter.value = cpu.popFromStack();
       }
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'RET C',
+    instruction: "RET C",
     byteDefinition: getRetConditionByteDefinition(FlagCondition.C),
     byteLength: 1,
     get cycleTime() {
@@ -228,26 +225,18 @@ export function createCallAndReturnOperations(this: CPU) {
       if (registers.flags.isCarry) {
         registers.programCounter.value = cpu.popFromStack();
       }
-    }
+    },
   });
 
-
-// ****************
-// * Restart t
-// ****************
+  // ****************
+  // * Restart t
+  // ****************
   function getRstConditionByteDefinition(operand: number) {
     return (0b11 << 6) + (operand << 3) + 0b111;
   }
 
   const operandToAddress = [
-    0x0000,
-    0x0008,
-    0x0010,
-    0x0018,
-    0x0020,
-    0x0028,
-    0x0030,
-    0x0038,
+    0x0000, 0x0008, 0x0010, 0x0018, 0x0020, 0x0028, 0x0030, 0x0038,
   ];
 
   for (let operand = 0; operand < 8; operand++) {
@@ -259,7 +248,7 @@ export function createCallAndReturnOperations(this: CPU) {
       execute() {
         cpu.pushToStack(registers.programCounter.value);
         registers.programCounter.value = operandToAddress[operand];
-      }
+      },
     });
   }
 }

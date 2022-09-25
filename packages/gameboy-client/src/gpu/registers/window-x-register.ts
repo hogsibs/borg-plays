@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class WindowXRegister implements SingleByteMemoryRegister {
   offset = 0xff4b;
-  name = 'WX';
+  name = "WX";
 
   get value() {
     return memory.readByte(this.offset);

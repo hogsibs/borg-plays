@@ -1,10 +1,9 @@
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
 import { SingleByteMemoryRegister } from "../../memory/memory-register";
-
 
 class Sound4PolynomialRegister implements SingleByteMemoryRegister {
   offset = 0xff22;
-  name = 'NR43';
+  name = "NR43";
   private divisors = [8, 16, 32, 48, 64, 80, 96, 112];
 
   get value() {
@@ -39,4 +38,4 @@ class Sound4PolynomialRegister implements SingleByteMemoryRegister {
   }
 }
 
-export const sound4PolynomialRegister = new Sound4PolynomialRegister()
+export const sound4PolynomialRegister = new Sound4PolynomialRegister();

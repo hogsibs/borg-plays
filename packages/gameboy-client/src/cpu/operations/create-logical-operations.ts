@@ -1,12 +1,12 @@
-import { memory } from "@/memory/memory";
-import { CPU } from "@/cpu/cpu";
-import { CpuRegister } from "@/cpu/internal-registers/cpu-register";
+import { memory } from "../../memory/memory";
+import { CPU } from "../cpu";
+import { CpuRegister } from "../internal-registers/cpu-register";
 
 export function createLogicalOperations(this: CPU) {
   const { registers } = this;
 
   function andAndSetFlags(accumulatorVal: number, toAnd: number) {
-    const newValue = (accumulatorVal & toAnd) & 0xff;
+    const newValue = accumulatorVal & toAnd & 0xff;
     registers.flags.isCarry = false;
     registers.flags.isHalfCarry = true;
     registers.flags.isSubtraction = false;
@@ -15,14 +15,14 @@ export function createLogicalOperations(this: CPU) {
     return newValue;
   }
 
-// ****************
-// * And s
-// ****************
+  // ****************
+  // * And s
+  // ****************
   function getAndARByteDefinition(rCode: CpuRegister.Code) {
     return 0b10_100_000 + rCode;
   }
 
-  this.registers.baseRegisters.forEach(register => {
+  this.registers.baseRegisters.forEach((register) => {
     this.addOperation({
       byteDefinition: getAndARByteDefinition(register.code),
       cycleTime: 1,
@@ -30,7 +30,7 @@ export function createLogicalOperations(this: CPU) {
       instruction: `AND ${register.name}`,
       execute() {
         registers.A.value = andAndSetFlags(registers.A.value, register.value);
-      }
+      },
     });
   });
 
@@ -39,13 +39,15 @@ export function createLogicalOperations(this: CPU) {
     cycleTime: 2,
     byteLength: 2,
     get instruction() {
-      return `AND 0x${memory.readByte(registers.programCounter.value).toString(16)}`;
+      return `AND 0x${memory
+        .readByte(registers.programCounter.value)
+        .toString(16)}`;
     },
     execute() {
       const value = memory.readByte(registers.programCounter.value);
       registers.programCounter.value++;
       registers.A.value = andAndSetFlags(registers.A.value, value);
-    }
+    },
   });
 
   this.addOperation({
@@ -58,9 +60,8 @@ export function createLogicalOperations(this: CPU) {
     execute() {
       const value = memory.readByte(registers.HL.value);
       registers.A.value = andAndSetFlags(registers.A.value, value);
-    }
+    },
   });
-
 
   function compareAndSetFlags(accumulatorVal: number, toSubtract: number) {
     const newValue = (accumulatorVal - toSubtract) & 0xff;
@@ -70,14 +71,14 @@ export function createLogicalOperations(this: CPU) {
     registers.flags.isCarry = accumulatorVal < toSubtract;
   }
 
-// ****************
-// * Compare s
-// ****************
+  // ****************
+  // * Compare s
+  // ****************
   function getCpARByteDefinition(rCode: CpuRegister.Code) {
     return 0b10_111_000 + rCode;
   }
 
-  this.registers.baseRegisters.forEach(register => {
+  this.registers.baseRegisters.forEach((register) => {
     this.addOperation({
       instruction: `CP ${register.name}`,
       byteDefinition: getCpARByteDefinition(register.code),
@@ -85,13 +86,15 @@ export function createLogicalOperations(this: CPU) {
       byteLength: 1,
       execute() {
         compareAndSetFlags(registers.A.value, register.value);
-      }
+      },
     });
   });
 
   this.addOperation({
     get instruction() {
-      return `CP 0x${memory.readByte(registers.programCounter.value).toString(16)}`;
+      return `CP 0x${memory
+        .readByte(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_111_110,
     cycleTime: 2,
@@ -100,20 +103,19 @@ export function createLogicalOperations(this: CPU) {
       const value = memory.readByte(registers.programCounter.value);
       registers.programCounter.value++;
       compareAndSetFlags(registers.A.value, value);
-    }
+    },
   });
 
   this.addOperation({
-    instruction: 'CP (HL)',
+    instruction: "CP (HL)",
     byteDefinition: 0b10_111_110,
     cycleTime: 2,
     byteLength: 1,
     execute() {
       const value = memory.readByte(registers.HL.value);
       compareAndSetFlags(registers.A.value, value);
-    }
+    },
   });
-
 
   function orAndSetFlags(accumulatorVal: number, toOr: number) {
     const newValue = (accumulatorVal | toOr) & 0xff;
@@ -125,14 +127,14 @@ export function createLogicalOperations(this: CPU) {
     return newValue;
   }
 
-// ****************
-// * Or s
-// ****************
+  // ****************
+  // * Or s
+  // ****************
   function getOrARByteDefinition(rCode: CpuRegister.Code) {
     return 0b10_110_000 + rCode;
   }
 
-  this.registers.baseRegisters.forEach(register => {
+  this.registers.baseRegisters.forEach((register) => {
     this.addOperation({
       byteDefinition: getOrARByteDefinition(register.code),
       cycleTime: 1,
@@ -140,7 +142,7 @@ export function createLogicalOperations(this: CPU) {
       instruction: `OR ${register.name}`,
       execute() {
         registers.A.value = orAndSetFlags(registers.A.value, register.value);
-      }
+      },
     });
   });
 
@@ -149,26 +151,27 @@ export function createLogicalOperations(this: CPU) {
     cycleTime: 2,
     byteLength: 2,
     get instruction() {
-      return `OR 0x${memory.readByte(registers.programCounter.value).toString(16)}`;
+      return `OR 0x${memory
+        .readByte(registers.programCounter.value)
+        .toString(16)}`;
     },
     execute() {
       const value = memory.readByte(registers.programCounter.value);
       registers.programCounter.value++;
       registers.A.value = orAndSetFlags(registers.A.value, value);
-    }
+    },
   });
 
   this.addOperation({
     byteDefinition: 0b10_110_110,
     cycleTime: 2,
     byteLength: 1,
-    instruction: 'OR (HL)',
+    instruction: "OR (HL)",
     execute() {
       const value = memory.readByte(registers.HL.value);
       registers.A.value = orAndSetFlags(registers.A.value, value);
-    }
+    },
   });
-
 
   function xorAndSetFlags(accumulatorVal: number, toXor: number) {
     const newValue = (accumulatorVal ^ toXor) & 0xff;
@@ -180,14 +183,14 @@ export function createLogicalOperations(this: CPU) {
     return newValue;
   }
 
-// ****************
-// * Xor s
-// ****************
+  // ****************
+  // * Xor s
+  // ****************
   function getXorARByteDefinition(rCode: CpuRegister.Code) {
     return 0b10_101_000 + rCode;
   }
 
-  this.registers.baseRegisters.forEach(register => {
+  this.registers.baseRegisters.forEach((register) => {
     this.addOperation({
       instruction: `XOR ${register.name}`,
       byteDefinition: getXorARByteDefinition(register.code),
@@ -195,13 +198,15 @@ export function createLogicalOperations(this: CPU) {
       byteLength: 1,
       execute() {
         registers.A.value = xorAndSetFlags(registers.A.value, register.value);
-      }
+      },
     });
   });
 
   this.addOperation({
     get instruction() {
-      return `XOR 0x${memory.readByte(registers.programCounter.value).toString(16)}`;
+      return `XOR 0x${memory
+        .readByte(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_101_110,
     cycleTime: 2,
@@ -209,18 +214,18 @@ export function createLogicalOperations(this: CPU) {
     execute() {
       const value = memory.readByte(registers.programCounter.value);
       registers.programCounter.value++;
-      registers.A.value = xorAndSetFlags(registers.A.value, value)
-    }
+      registers.A.value = xorAndSetFlags(registers.A.value, value);
+    },
   });
 
   this.addOperation({
-    instruction: 'XOR (HL)',
+    instruction: "XOR (HL)",
     byteDefinition: 0b10_101_110,
     cycleTime: 2,
     byteLength: 1,
     execute() {
       const value = memory.readByte(registers.HL.value);
       registers.A.value = xorAndSetFlags(registers.A.value, value);
-    }
+    },
   });
 }

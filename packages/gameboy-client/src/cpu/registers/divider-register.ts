@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class DividerRegister implements SingleByteMemoryRegister {
   offset = 0xff04;
-  name = 'DIV';
+  name = "DIV";
 
   setValueFromCpuDivider(value: number) {
     memory.writeByte(this.offset, value);

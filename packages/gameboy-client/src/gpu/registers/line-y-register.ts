@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class LineYRegister implements SingleByteMemoryRegister {
   offset = 0xff44;
-  name = 'LY';
+  name = "LY";
 
   get value() {
     return memory.readByte(this.offset);

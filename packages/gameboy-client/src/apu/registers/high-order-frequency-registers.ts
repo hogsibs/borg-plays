@@ -1,12 +1,12 @@
-import { setBit } from "@/helpers/binary-helpers";
-import { memory } from "@/memory/memory";
+import { setBit } from "../../helpers/binary-helpers";
+import { memory } from "../../memory/memory";
 import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class HighOrderFrequencyRegister implements SingleByteMemoryRegister {
   offset: number;
   name: string;
 
-  constructor(offset: number, name:string) {
+  constructor(offset: number, name: string) {
     this.offset = offset;
     this.name = name;
   }
@@ -37,6 +37,15 @@ export class HighOrderFrequencyRegister implements SingleByteMemoryRegister {
   }
 }
 
-export const sound1HighOrderFrequencyRegister = new HighOrderFrequencyRegister(0xff14, 'NR14');
-export const sound2HighOrderFrequencyRegister = new HighOrderFrequencyRegister(0xff19, 'NR24');
-export const sound3HighOrderFrequencyRegister = new HighOrderFrequencyRegister(0xff1e, 'NR34');
+export const sound1HighOrderFrequencyRegister = new HighOrderFrequencyRegister(
+  0xff14,
+  "NR14"
+);
+export const sound2HighOrderFrequencyRegister = new HighOrderFrequencyRegister(
+  0xff19,
+  "NR24"
+);
+export const sound3HighOrderFrequencyRegister = new HighOrderFrequencyRegister(
+  0xff1e,
+  "NR34"
+);

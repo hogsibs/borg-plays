@@ -1,7 +1,7 @@
-import { CPU } from "@/cpu/cpu";
-import { setBit } from "@/helpers/binary-helpers";
-import { memory } from "@/memory/memory";
-import { CpuRegister } from "@/cpu/internal-registers/cpu-register";
+import { setBit } from "../../../helpers/binary-helpers";
+import { memory } from "../../../memory/memory";
+import { CPU } from "../../cpu";
+import { CpuRegister } from "../../internal-registers/cpu-register";
 
 export function getSetSubOperations(cpu: CPU) {
   const { registers } = cpu;
@@ -9,11 +9,14 @@ export function getSetSubOperations(cpu: CPU) {
   // ****************R
   // * Set b, A
   // ****************
-  function getSetBAByteDefinition(bitPosition: number, registerCode: CpuRegister.Code) {
+  function getSetBAByteDefinition(
+    bitPosition: number,
+    registerCode: CpuRegister.Code
+  ) {
     return (0b11 << 6) + (bitPosition << 3) + registerCode;
   }
 
-  cpu.registers.baseRegisters.forEach(register => {
+  cpu.registers.baseRegisters.forEach((register) => {
     for (let bitPosition = 0; bitPosition < 8; bitPosition++) {
       cpu.addCbOperation({
         byteDefinition: getSetBAByteDefinition(bitPosition, register.code),
@@ -22,11 +25,10 @@ export function getSetSubOperations(cpu: CPU) {
         byteLength: 2,
         execute() {
           register.value = setBit(register.value, bitPosition, 1);
-        }
-      })
+        },
+      });
     }
   });
-
 
   // ****************
   // * Set b, (HL)
@@ -45,7 +47,7 @@ export function getSetSubOperations(cpu: CPU) {
         const value = memory.readByte(registers.HL.value);
         const bitSet = setBit(value, bitPosition, 1);
         memory.writeByte(registers.HL.value, bitSet);
-      }
-    })
+      },
+    });
   }
 }

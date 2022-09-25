@@ -6,7 +6,13 @@ export class CpuRegister {
   protected dataView: DataView;
   protected readonly byteSize: 1 | 2;
 
-  constructor(name: string, offset: number, data: ArrayBuffer, code: CpuRegister.Code | CpuRegister.PairCode, byteSize: 1 | 2 = 1) {
+  constructor(
+    name: string,
+    offset: number,
+    data: ArrayBuffer,
+    code: CpuRegister.Code | CpuRegister.PairCode,
+    byteSize: 1 | 2 = 1
+  ) {
     this.name = name;
     this.offset = offset;
     this.dataView = new DataView(data);

@@ -1,9 +1,9 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 class BackgroundPaletteRegister implements SingleByteMemoryRegister {
   offset = 0xff47;
-  name = 'BGP';
+  name = "BGP";
 
   get value() {
     return memory.readByte(this.offset);

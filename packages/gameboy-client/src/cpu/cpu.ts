@@ -1,23 +1,23 @@
+import { Cartridge } from "../cartridge/cartridge";
+import { asUint16, getMostSignificantByte } from "../helpers/binary-helpers";
+import { memory } from "../memory/memory";
 import { CpuRegisterCollection } from "./internal-registers/cpu-register-collection";
-import { memory } from "@/memory/memory";
-import { createCallAndReturnOperations } from "@/cpu/operations/create-call-and-return-operations";
-import { createInterruptOperations } from "@/cpu/operations/create-interupt-operations";
-import { createJumpOperations } from "@/cpu/operations/create-jump-operations";
-import { createRotateShiftOperations } from "@/cpu/operations/create-rotate-shift-operations";
-import { createGeneralPurposeOperations } from "@/cpu/operations/create-general-purpose-operations";
-import { Operation } from "@/cpu/operations/operation.model";
-import { interruptRequestRegister } from "@/cpu/registers/interrupt-request-register";
-import { interruptEnableRegister } from "@/cpu/registers/interrupt-enable-register";
-import { Cartridge } from "@/cartridge/cartridge";
-import { createCbSubOperations } from "@/cpu/operations/cb-operations/cb-operation";
-import { createLogicalOperations } from "@/cpu/operations/create-logical-operations";
-import { createArithmeticOperations } from "@/cpu/operations/create-arithmetic-operations";
-import { createInputOutputOperations } from "@/cpu/operations/create-input-output-operations";
-import { asUint16, getMostSignificantByte } from "@/helpers/binary-helpers";
-import { dividerRegister } from "@/cpu/registers/divider-register";
-import { timerControllerRegister } from "@/cpu/registers/timer-controller-register";
-import { timerCounterRegister } from "@/cpu/registers/timer-counter-register";
-import { timerModuloRegister } from "@/cpu/registers/timer-modulo-register";
+import { createCbSubOperations } from "./operations/cb-operations/cb-operation";
+import { createArithmeticOperations } from "./operations/create-arithmetic-operations";
+import { createCallAndReturnOperations } from "./operations/create-call-and-return-operations";
+import { createGeneralPurposeOperations } from "./operations/create-general-purpose-operations";
+import { createInputOutputOperations } from "./operations/create-input-output-operations";
+import { createInterruptOperations } from "./operations/create-interupt-operations";
+import { createJumpOperations } from "./operations/create-jump-operations";
+import { createLogicalOperations } from "./operations/create-logical-operations";
+import { createRotateShiftOperations } from "./operations/create-rotate-shift-operations";
+import { Operation } from "./operations/operation.model";
+import { dividerRegister } from "./registers/divider-register";
+import { interruptEnableRegister } from "./registers/interrupt-enable-register";
+import { interruptRequestRegister } from "./registers/interrupt-request-register";
+import { timerControllerRegister } from "./registers/timer-controller-register";
+import { timerCounterRegister } from "./registers/timer-counter-register";
+import { timerModuloRegister } from "./registers/timer-modulo-register";
 
 export class CPU {
   static OperatingHertz = 4_194_304;
@@ -71,7 +71,7 @@ export class CPU {
     this.registers.stackPointer.value = 0xfffe;
     this.registers.HL.value = 0x014d;
     this.registers.C.value = 0x13;
-    this.registers.E.value = 0xD8;
+    this.registers.E.value = 0xd8;
     this.registers.A.value = 1;
     this.registers.F.value = 0xb0;
   }
@@ -132,7 +132,8 @@ export class CPU {
   }
 
   private handleInterrupts() {
-    const firedInterrupts = interruptRequestRegister.value & interruptEnableRegister.value;
+    const firedInterrupts =
+      interruptRequestRegister.value & interruptEnableRegister.value;
 
     if (firedInterrupts > 0) {
       this.isHalted = false;
@@ -144,39 +145,38 @@ export class CPU {
 
     this.pushToStack(this.registers.programCounter.value);
 
-    const interruptFlags = interruptRequestRegister.getInterruptFlags(firedInterrupts);
+    const interruptFlags =
+      interruptRequestRegister.getInterruptFlags(firedInterrupts);
 
     if (interruptFlags.isVerticalBlanking) {
       interruptRequestRegister.clearVBlankInterruptRequest();
       this.registers.programCounter.value = CPU.VBlankInterruptAddress;
-    }
-
-    else if (interruptFlags.isLCDStatus) {
+    } else if (interruptFlags.isLCDStatus) {
       interruptRequestRegister.clearLcdStatusInterruptRequest();
       this.registers.programCounter.value = CPU.LCDStatusInterruptAddress;
-    }
-
-    else if (interruptFlags.isTimerOverflow) {
+    } else if (interruptFlags.isTimerOverflow) {
       interruptRequestRegister.clearTimerOverflowInterruptRequest();
       this.registers.programCounter.value = CPU.TimerOverflowInterruptAddress;
-    }
-
-    else if (interruptFlags.isSerialTransferCompletion) {
+    } else if (interruptFlags.isSerialTransferCompletion) {
       interruptRequestRegister.clearSerialTransferInterruptRequest();
-      this.registers.programCounter.value = CPU.SerialTransferCompletionInterruptAddress;
-    }
-
-    else if (interruptFlags.isP10P13NegativeEdge) {
+      this.registers.programCounter.value =
+        CPU.SerialTransferCompletionInterruptAddress;
+    } else if (interruptFlags.isP10P13NegativeEdge) {
       interruptRequestRegister.clearP10P13NegativeEdgeInterruptRequest();
-      this.registers.programCounter.value = CPU.P10P13InputSignalLowInterruptAddress;
+      this.registers.programCounter.value =
+        CPU.P10P13InputSignalLowInterruptAddress;
     }
 
     this.isInterruptMasterEnable = false;
   }
 
   updateTimers(cycles: number) {
-    this.frequencyCounter = asUint16(this.frequencyCounter + (cycles * this.cycleMultiplier));
-    dividerRegister.setValueFromCpuDivider(getMostSignificantByte(this.frequencyCounter));
+    this.frequencyCounter = asUint16(
+      this.frequencyCounter + cycles * this.cycleMultiplier
+    );
+    dividerRegister.setValueFromCpuDivider(
+      getMostSignificantByte(this.frequencyCounter)
+    );
 
     if (!timerControllerRegister.isTimerOn) {
       return;
@@ -185,7 +185,6 @@ export class CPU {
     this.timerCycles += cycles;
 
     if (this.timerCycles >= timerControllerRegister.cyclesForTimerUpdate) {
-
       if (timerCounterRegister.value + 1 > 0xff) {
         interruptRequestRegister.triggerTimerInterruptRequest();
         timerCounterRegister.value = timerModuloRegister.value;
@@ -198,7 +197,11 @@ export class CPU {
 
   addOperation(operation: Operation) {
     if (this.operationMap.has(operation.byteDefinition)) {
-      throw new Error(`Operation ${operation.byteDefinition.toString(2)} has already been defined`);
+      throw new Error(
+        `Operation ${operation.byteDefinition.toString(
+          2
+        )} has already been defined`
+      );
     }
 
     this.operationMap.set(operation.byteDefinition, operation);
@@ -206,7 +209,11 @@ export class CPU {
 
   addCbOperation(operation: Operation) {
     if (this.cbSubOperationMap.has(operation.byteDefinition)) {
-      throw new Error(`Operation ${operation.byteDefinition.toString(2)} has already been defined`);
+      throw new Error(
+        `Operation ${operation.byteDefinition.toString(
+          2
+        )} has already been defined`
+      );
     }
 
     this.cbSubOperationMap.set(operation.byteDefinition, operation);

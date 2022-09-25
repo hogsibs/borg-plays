@@ -7,6 +7,6 @@ export interface SingleByteMemoryRegister extends MemoryRegister {
   value: number;
 }
 
-export interface MultiByteMemoryRegister extends MemoryRegister{
+export interface MultiByteMemoryRegister extends MemoryRegister {
   getValueAt(index: Number): number;
 }

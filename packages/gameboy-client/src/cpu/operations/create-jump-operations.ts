@@ -1,24 +1,30 @@
-import { memory } from "@/memory/memory";
-import { CPU } from "@/cpu/cpu";
+import { memory } from "../../memory/memory";
+import { CPU } from "../cpu";
 
 export function createJumpOperations(this: CPU) {
   const { registers } = this;
 
   this.addOperation({
     get instruction() {
-      return `JP 0x${memory.readWord(registers.programCounter.value).toString(16)}`
+      return `JP 0x${memory
+        .readWord(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_000_011,
     cycleTime: 4,
     byteLength: 3,
     execute() {
-      registers.programCounter.value = memory.readWord(registers.programCounter.value);
-    }
+      registers.programCounter.value = memory.readWord(
+        registers.programCounter.value
+      );
+    },
   });
 
   this.addOperation({
     get instruction() {
-      return `JP NZ, 0x${memory.readWord(registers.programCounter.value).toString(16)}`
+      return `JP NZ, 0x${memory
+        .readWord(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_000_010,
     get cycleTime() {
@@ -27,16 +33,20 @@ export function createJumpOperations(this: CPU) {
     byteLength: 3,
     execute() {
       if (!registers.flags.isResultZero) {
-        registers.programCounter.value = memory.readWord(registers.programCounter.value);
+        registers.programCounter.value = memory.readWord(
+          registers.programCounter.value
+        );
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
   this.addOperation({
     get instruction() {
-      return `JP Z, 0x${memory.readWord(registers.programCounter.value).toString(16)}`
+      return `JP Z, 0x${memory
+        .readWord(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_001_010,
     get cycleTime() {
@@ -45,16 +55,20 @@ export function createJumpOperations(this: CPU) {
     byteLength: 3,
     execute() {
       if (registers.flags.isResultZero) {
-        registers.programCounter.value = memory.readWord(registers.programCounter.value);
+        registers.programCounter.value = memory.readWord(
+          registers.programCounter.value
+        );
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
   this.addOperation({
     get instruction() {
-      return `JP NC, 0x${memory.readWord(registers.programCounter.value).toString(16)}`
+      return `JP NC, 0x${memory
+        .readWord(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_010_010,
     get cycleTime() {
@@ -63,16 +77,20 @@ export function createJumpOperations(this: CPU) {
     byteLength: 3,
     execute() {
       if (!registers.flags.isCarry) {
-        registers.programCounter.value = memory.readWord(registers.programCounter.value);
+        registers.programCounter.value = memory.readWord(
+          registers.programCounter.value
+        );
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
   this.addOperation({
     get instruction() {
-      return `JP C, 0x${memory.readWord(registers.programCounter.value).toString(16)}`
+      return `JP C, 0x${memory
+        .readWord(registers.programCounter.value)
+        .toString(16)}`;
     },
     byteDefinition: 0b11_011_010,
     get cycleTime() {
@@ -81,11 +99,13 @@ export function createJumpOperations(this: CPU) {
     byteLength: 3,
     execute() {
       if (registers.flags.isCarry) {
-        registers.programCounter.value = memory.readWord(registers.programCounter.value);
+        registers.programCounter.value = memory.readWord(
+          registers.programCounter.value
+        );
       } else {
         registers.programCounter.value += 2;
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -101,10 +121,13 @@ export function createJumpOperations(this: CPU) {
     cycleTime: 3,
     byteLength: 2,
     execute() {
-      const jumpDistance = memory.readSignedByte(registers.programCounter.value);
+      const jumpDistance = memory.readSignedByte(
+        registers.programCounter.value
+      );
       registers.programCounter.value++;
-      registers.programCounter.value = registers.programCounter.value + jumpDistance;
-    }
+      registers.programCounter.value =
+        registers.programCounter.value + jumpDistance;
+    },
   });
 
   this.addOperation({
@@ -121,13 +144,16 @@ export function createJumpOperations(this: CPU) {
     byteLength: 2,
     execute() {
       if (!registers.flags.isResultZero) {
-        const jumpDistance = memory.readSignedByte(registers.programCounter.value);
+        const jumpDistance = memory.readSignedByte(
+          registers.programCounter.value
+        );
         registers.programCounter.value++;
-        registers.programCounter.value = registers.programCounter.value + jumpDistance;
+        registers.programCounter.value =
+          registers.programCounter.value + jumpDistance;
       } else {
         registers.programCounter.value++;
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -144,13 +170,16 @@ export function createJumpOperations(this: CPU) {
     byteLength: 2,
     execute() {
       if (registers.flags.isResultZero) {
-        const jumpDistance = memory.readSignedByte(registers.programCounter.value);
+        const jumpDistance = memory.readSignedByte(
+          registers.programCounter.value
+        );
         registers.programCounter.value++;
-        registers.programCounter.value = registers.programCounter.value + jumpDistance;
+        registers.programCounter.value =
+          registers.programCounter.value + jumpDistance;
       } else {
         registers.programCounter.value++;
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -167,13 +196,16 @@ export function createJumpOperations(this: CPU) {
     byteLength: 2,
     execute() {
       if (!registers.flags.isCarry) {
-        const jumpDistance = memory.readSignedByte(registers.programCounter.value);
+        const jumpDistance = memory.readSignedByte(
+          registers.programCounter.value
+        );
         registers.programCounter.value++;
-        registers.programCounter.value = registers.programCounter.value + jumpDistance;
+        registers.programCounter.value =
+          registers.programCounter.value + jumpDistance;
       } else {
         registers.programCounter.value++;
       }
-    }
+    },
   });
 
   this.addOperation({
@@ -190,22 +222,25 @@ export function createJumpOperations(this: CPU) {
     byteLength: 2,
     execute() {
       if (registers.flags.isCarry) {
-        const jumpDistance = memory.readSignedByte(registers.programCounter.value);
+        const jumpDistance = memory.readSignedByte(
+          registers.programCounter.value
+        );
         registers.programCounter.value++;
-        registers.programCounter.value = registers.programCounter.value + jumpDistance;
+        registers.programCounter.value =
+          registers.programCounter.value + jumpDistance;
       } else {
         registers.programCounter.value++;
       }
-    }
+    },
   });
 
   this.addOperation({
-    instruction: ' JP (HL)',
+    instruction: " JP (HL)",
     byteDefinition: 0b11_101_001,
     cycleTime: 1,
     byteLength: 1,
     execute() {
       registers.programCounter.value = registers.HL.value;
-    }
+    },
   });
 }

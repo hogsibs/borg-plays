@@ -1,11 +1,11 @@
-import { CPU } from "@/cpu/cpu";
-import { getBit } from "@/helpers/binary-helpers";
-import { memory } from "@/memory/memory";
-import { CpuRegister } from "@/cpu/internal-registers/cpu-register";
+import { getBit } from "../../../helpers/binary-helpers";
+import { memory } from "../../../memory/memory";
+import { CPU } from "../../cpu";
+import { CpuRegister } from "../../internal-registers/cpu-register";
 
 export function getBitSubOperations(cpu: CPU) {
   const { registers } = cpu;
-  
+
   function getBitAndSetFlags(value: number, position: number) {
     const bit = getBit(value, position);
     registers.flags.isResultZero = !bit;
@@ -16,11 +16,14 @@ export function getBitSubOperations(cpu: CPU) {
   // ****************
   // * Bit b, A
   // ****************
-  function getBitBAByteDefinition(bitPosition: number, registerCode: CpuRegister.Code) {
+  function getBitBAByteDefinition(
+    bitPosition: number,
+    registerCode: CpuRegister.Code
+  ) {
     return (0b01 << 6) + (bitPosition << 3) + registerCode;
   }
 
-  cpu.registers.baseRegisters.forEach(register => {
+  cpu.registers.baseRegisters.forEach((register) => {
     for (let bitPosition = 0; bitPosition < 8; bitPosition++) {
       cpu.addCbOperation({
         byteDefinition: getBitBAByteDefinition(bitPosition, register.code),
@@ -29,11 +32,10 @@ export function getBitSubOperations(cpu: CPU) {
         byteLength: 2,
         execute() {
           getBitAndSetFlags(register.value, bitPosition);
-        }
-      })
+        },
+      });
     }
   });
-
 
   // ****************
   // * Bit b, (HL)
@@ -51,7 +53,7 @@ export function getBitSubOperations(cpu: CPU) {
       execute() {
         const value = memory.readByte(registers.HL.value);
         getBitAndSetFlags(value, bitPosition);
-      }
-    })
+      },
+    });
   }
 }

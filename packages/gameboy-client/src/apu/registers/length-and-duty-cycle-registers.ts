@@ -1,4 +1,4 @@
-import { memory } from "@/memory/memory";
+import { memory } from "../../memory/memory";
 import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 export class LengthAndDutyCycleRegister implements SingleByteMemoryRegister {
@@ -23,5 +23,11 @@ export class LengthAndDutyCycleRegister implements SingleByteMemoryRegister {
   }
 }
 
-export const sound1LengthAndDutyCycleRegister = new LengthAndDutyCycleRegister(0xff11, 'NR11');
-export const sound2LengthAndDutyCycleRegister = new LengthAndDutyCycleRegister(0xff16, 'NR21');
+export const sound1LengthAndDutyCycleRegister = new LengthAndDutyCycleRegister(
+  0xff11,
+  "NR11"
+);
+export const sound2LengthAndDutyCycleRegister = new LengthAndDutyCycleRegister(
+  0xff16,
+  "NR21"
+);

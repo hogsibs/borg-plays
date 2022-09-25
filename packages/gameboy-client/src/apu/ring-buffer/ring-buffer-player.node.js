@@ -26,7 +26,13 @@ class RingBufferReader {
     let sizeFromStartOfTheArrayOrZero = howManyToRead - sizeUpToEndOfArray;
 
     this.copy(this.storage, read, elements, 0, sizeUpToEndOfArray);
-    this.copy(this.storage, 0, elements, sizeUpToEndOfArray, sizeFromStartOfTheArrayOrZero);
+    this.copy(
+      this.storage,
+      0,
+      elements,
+      sizeUpToEndOfArray,
+      sizeFromStartOfTheArrayOrZero
+    );
 
     const readPointerPositionAfterRead = (read + howManyToRead) % this.capacity;
     Atomics.store(this.readPointer, 0, readPointerPositionAfterRead);
@@ -103,18 +109,22 @@ class RingBufferProcessor extends AudioWorkletProcessor {
   process(inputs, outputs) {
     // Get any param changes
     if (this.dequeueParameterChange(this.parameterObject)) {
-      console.log("param change: ", this.parameterObject.index, this.parameterObject.value);
+      console.log(
+        "param change: ",
+        this.parameterObject.index,
+        this.parameterObject.value
+      );
       this.amp = this.parameterObject.value;
     }
 
     this.audioReadBuffer.dequeue(this.interleaved);
 
     for (var i = 0; i < 128; i++) {
-      outputs[0][0][i] = this.amp * this.interleaved[i]
+      outputs[0][0][i] = this.amp * this.interleaved[i];
     }
 
     return true;
   }
 }
 
-registerProcessor('ring-buffer-processor', RingBufferProcessor);
+registerProcessor("ring-buffer-processor", RingBufferProcessor);

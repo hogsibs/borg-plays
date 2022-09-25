@@ -1,6 +1,6 @@
-import { SingleByteMemoryRegister } from "@/memory/memory-register";
-import { memory } from "@/memory/memory";
-import { clearBit, setBit } from "@/helpers/binary-helpers";
+import { setBit, clearBit } from "../../helpers/binary-helpers";
+import { memory } from "../../memory/memory";
+import { SingleByteMemoryRegister } from "../../memory/memory-register";
 
 interface InterruptFlags {
   isVerticalBlanking: boolean;
@@ -12,7 +12,7 @@ interface InterruptFlags {
 
 class InterruptRequestRegister implements SingleByteMemoryRegister {
   offset = 0xff0f;
-  name = 'IF';
+  name = "IF";
 
   get value() {
     return memory.readByte(this.offset);
@@ -60,8 +60,8 @@ class InterruptRequestRegister implements SingleByteMemoryRegister {
       isLCDStatus: ((flagValue >> 1) & 0b1) === 1,
       isTimerOverflow: ((flagValue >> 2) & 0b1) === 1,
       isSerialTransferCompletion: ((flagValue >> 3) & 0b1) === 1,
-      isP10P13NegativeEdge: ((flagValue >> 4) & 0b1) === 1
-    }
+      isP10P13NegativeEdge: ((flagValue >> 4) & 0b1) === 1,
+    };
   }
 }
 

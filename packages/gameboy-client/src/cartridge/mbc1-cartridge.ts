@@ -1,12 +1,11 @@
-import { Cartridge } from "@/cartridge/cartridge";
-import { CartridgeType } from "@/cartridge/cartridge-type.enum";
+import { Cartridge } from "../../dist/cartridge/cartridge";
 
 enum Mbc1WriteType {
   RamGateRegister,
   Bank1Register,
   Bank2Register,
   ModeRegister,
-  Sram
+  Sram,
 }
 
 enum Mbc1ReadType {
@@ -14,7 +13,7 @@ enum Mbc1ReadType {
   RomBankZeroMode1,
   RomBank,
   Sram,
-  Invalid
+  Invalid,
 }
 
 export class Mbc1Cartridge extends Cartridge {
@@ -33,7 +32,7 @@ export class Mbc1Cartridge extends Cartridge {
 
   constructor(gameDataView: DataView) {
     super(gameDataView);
-    this.ramData = new ArrayBuffer(this.ramSize)
+    this.ramData = new ArrayBuffer(this.ramSize);
     this.ramDataView = new DataView(this.ramData);
     this.ramBytes = new Uint8Array(this.ramDataView.buffer);
     this.ramBytes.fill(0xff);
@@ -49,15 +48,17 @@ export class Mbc1Cartridge extends Cartridge {
     return this.ramDataView.buffer;
   }
 
-
   override writeByte(address: number, value: number) {
     const sramWrite = (address: number, value: number) => {
       this.ramDataView.setUint8(address, value);
       if (this.type === CartridgeType.MBC1_RAM_BATTERY && this.onSramWrite) {
         clearTimeout(this.writeTimeout);
-        this.writeTimeout = setTimeout(() => this.onSramWrite!(this.ramData), 500);
+        this.writeTimeout = setTimeout(
+          () => this.onSramWrite!(this.ramData),
+          500
+        );
       }
-    }
+    };
     this.write(address, value, sramWrite);
   }
 
@@ -66,31 +67,42 @@ export class Mbc1Cartridge extends Cartridge {
       this.ramDataView.setUint16(address, value, true);
       if (this.type === CartridgeType.MBC1_RAM_BATTERY && this.onSramWrite) {
         clearTimeout(this.writeTimeout);
-        this.writeTimeout = setTimeout(() => this.onSramWrite!(this.ramData), 500);
+        this.writeTimeout = setTimeout(
+          () => this.onSramWrite!(this.ramData),
+          500
+        );
       }
-    }
+    };
     this.write(address, value, sramWrite);
   }
 
   override readByte(address: number): number {
-    const cartridgeRead = (address: number) => this.gameDataView.getUint8(address);
+    const cartridgeRead = (address: number) =>
+      this.gameDataView.getUint8(address);
     const sramRead = (address: number) => this.ramDataView.getUint8(address);
     return this.read(address, cartridgeRead, sramRead);
   }
 
   override readSignedByte(address: number): number {
-    const cartridgeRead = (address: number) => this.gameDataView.getInt8(address);
+    const cartridgeRead = (address: number) =>
+      this.gameDataView.getInt8(address);
     const sramRead = (address: number) => this.ramDataView.getInt8(address);
     return this.read(address, cartridgeRead, sramRead);
   }
 
   override readWord(address: number): number {
-    const cartridgeRead = (address: number) => this.gameDataView.getUint16(address, true);
-    const sramRead = (address: number) => this.ramDataView.getUint16(address, true);
+    const cartridgeRead = (address: number) =>
+      this.gameDataView.getUint16(address, true);
+    const sramRead = (address: number) =>
+      this.ramDataView.getUint16(address, true);
     return this.read(address, cartridgeRead, sramRead);
   }
 
-  private read(address: number, readFromCartridge: Function, readFromSram: Function) {
+  private read(
+    address: number,
+    readFromCartridge: Function,
+    readFromSram: Function
+  ) {
     const maskedAddress = address & 0b11111111111111;
 
     if (address >= 0x0000 && address <= 0x3fff) {
@@ -144,7 +156,6 @@ export class Mbc1Cartridge extends Cartridge {
     }
   }
 
-
   private isRamGate(address: number) {
     return address >= 0x0000 && address <= 0x1fff;
   }
@@ -154,7 +165,7 @@ export class Mbc1Cartridge extends Cartridge {
   }
 
   private isBank2(address: number) {
-    return address >=0x4000 && address <= 0x5fff;
+    return address >= 0x4000 && address <= 0x5fff;
   }
 
   private isMode(address: number) {

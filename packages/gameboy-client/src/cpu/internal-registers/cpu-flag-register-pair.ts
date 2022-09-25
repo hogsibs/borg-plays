@@ -1,4 +1,4 @@
-import { CpuRegister } from "@/cpu/internal-registers/cpu-register";
+import { CpuRegister } from "./cpu-register";
 
 export class CpuFlagRegisterPair extends CpuRegister {
   get value() {
