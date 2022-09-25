@@ -1,5 +1,5 @@
 import ringBufferPlayerClass from "./ring-buffer-player.node.js";
-import { RingBufferWriter } from "./ring-buffer-writer.js";
+import { RingBufferWriter } from "./ring-buffer-writer";
 
 // Encapsulates all the logic for the ring buffer on the main thread. ring-buffer-player-node.js is the worklet that
 // lives on a separate thread. Here samples and parameters can be written in a way that allows the ring buffer player
