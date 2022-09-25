@@ -1,5 +1,7 @@
 export class RemoteImageData {
-  data: Uint8ClampedArray = new Uint8ClampedArray();
+  data: Uint8ClampedArray;
 
-  constructor(public width: number, public height: number) {}
+  constructor(public width: number, public height: number) {
+    this.data = new Uint8ClampedArray(width * height * 4);
+  }
 }
