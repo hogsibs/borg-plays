@@ -26,7 +26,6 @@ const Connector: FunctionComponent = () => {
     setIsConnected(true);
     const socket = io("http://localhost:8001/");
     socket.on("frame", (data: ArrayBuffer) => {
-      console.log(data);
       canvasContext?.putImageData(
         new ImageData(new Uint8ClampedArray(data), 160, 144),
         0,
