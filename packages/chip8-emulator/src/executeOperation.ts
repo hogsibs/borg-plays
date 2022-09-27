@@ -1,5 +1,6 @@
 import { c8 } from "./c8";
-import { screenWidth } from "./emulator";
+import { screenHeight, screenWidth } from "./emulator";
+import { debugGraphics } from "./debugGraphics";
 
 const operations: OperationMap = {
   selector: () => c8.operationCode >> 12,
@@ -16,9 +17,6 @@ const operations: OperationMap = {
     },
   },
   0x1: () => {
-    if (c8.operationCode === 0x1ac7) {
-      debugger;
-    }
     c8.programCounter = c8.operationCode & 0xfff;
   },
   0x2: () => {
@@ -33,6 +31,13 @@ const operations: OperationMap = {
       c8.programCounter += 2;
     }
   },
+  0x4: () => {
+    const x = (c8.operationCode >> 8) & 0xf;
+    const value = c8.operationCode & 0xff;
+    if (x !== value) {
+      c8.programCounter += 2;
+    }
+  },
   0x6: () => {
     const x = (c8.operationCode >> 8) & 0xf;
     c8.registers[x] = c8.operationCode & 0xff;
@@ -44,6 +49,11 @@ const operations: OperationMap = {
   },
   0x8: {
     selector: () => c8.operationCode & 0xf,
+    0x2: () => {
+      const x = (c8.operationCode >> 8) & 0xf;
+      const y = (c8.operationCode >> 4) & 0xf;
+      c8.registers[x] = c8.registers[x] & c8.registers[y];
+    },
     0x4: () => {
       const x = (c8.operationCode >> 8) & 0xf;
       const y = (c8.operationCode >> 4) & 0xf;
@@ -54,15 +64,22 @@ const operations: OperationMap = {
   0xa: () => {
     c8.indexRegister = c8.operationCode & 0x0fff;
   },
+  0xc: () => {
+    const x = (c8.operationCode >> 8) & 0xf;
+    const value = c8.operationCode & 0xff;
+    const result = Math.floor(Math.random() * 0x100) & value;
+    c8.registers[x] = result;
+  },
   0xd: () => {
-    const coordX = (c8.operationCode >> 8) & 0xf;
-    const coordY = (c8.operationCode >> 4) & 0xf;
+    debugGraphics();
+    const coordX = c8.registers[(c8.operationCode >> 8) & 0xf] - 1;
+    const coordY = c8.registers[(c8.operationCode >> 4) & 0xf];
     const height = c8.operationCode & 0xf;
     let atLeastOneSwitch = false;
-    for (let y = coordY; y < coordY + height; y++) {
+    for (let y = coordY; y < coordY + height && y < screenHeight; y++) {
       const rowPixels = c8.memory[c8.indexRegister + (y - coordY)];
-      for (let x = coordX; x < coordX + 8; x++) {
-        const isFilled = !!(Math.pow(2, x - coordX) & rowPixels);
+      for (let x = coordX; x < coordX + 8 && x < screenWidth; x++) {
+        const isFilled = !!((1 << (7 - (x - coordX))) & rowPixels);
         if (c8.graphics[y * screenWidth + x] !== isFilled) {
           if (!atLeastOneSwitch) {
             atLeastOneSwitch = true;
@@ -72,6 +89,15 @@ const operations: OperationMap = {
       }
     }
     c8.registers[0xf] = atLeastOneSwitch ? 1 : 0;
+  },
+  0xe: {
+    selector: () => c8.operationCode & 0xff,
+    0xa1: () => {
+      const x = (c8.operationCode >> 8) & 0xf;
+      if (!(c8.keyPad & c8.registers[x])) {
+        c8.programCounter += 2;
+      }
+    },
   },
   0xf: {
     selector: () => c8.operationCode & 0xff,

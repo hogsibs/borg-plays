@@ -20,7 +20,7 @@ const gameLoop = setInterval(() => {
     c8.drawFlag = false;
   }
   setKeys();
-}, 1000 / 60);
+});
 
 setInterval(() => {
   c8.drawFlag = true;
