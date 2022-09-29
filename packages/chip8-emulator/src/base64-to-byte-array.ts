@@ -1,4 +1,4 @@
-export function base64ToByteArray(base64: string) {
+export default function base64ToByteArray(base64: string) {
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) {

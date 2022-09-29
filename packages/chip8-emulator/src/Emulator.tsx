@@ -1,6 +1,9 @@
-import { screenHeight, screenWidth } from "./emulator";
 import React, { useEffect, useRef, useState } from "react";
-import { c8 } from "./c8";
+import { screenHeight, screenWidth } from "./constants";
+import executeNextOperation from "./execute-next-operation";
+import initializeC8 from "./initialize-c8";
+import loadRom from "./load-rom";
+import pong from "./pong";
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -13,26 +16,39 @@ export default () => {
   }, []);
   useEffect(() => {
     if (!canvasContext) return;
-    let looping = true;
-    const drawScreen = () => {
-      if (!looping) {
-        return;
+    const c8 = initializeC8();
+    loadRom(c8, pong);
+    const gameLoop = setInterval(() => {
+      try {
+        executeNextOperation(c8);
+        const screen = new ImageData(screenWidth, screenHeight);
+        c8.graphics.forEach((isWhite, index) => {
+          const offset = 15;
+          const shade = isWhite ? 0xff - offset : offset;
+          screen.data[index * 4] = shade;
+          screen.data[index * 4 + 1] = shade;
+          screen.data[index * 4 + 2] = shade;
+          screen.data[index * 4 + 3] = 255;
+        });
+        canvasContext.putImageData(screen, 0, 0);
+
+        if (c8.delayTimer > 0) {
+          c8.delayTimer--;
+        }
+
+        if (c8.soundTimer > 0) {
+          if (c8.soundTimer === 1) {
+            console.log("BEEP");
+          }
+          c8.soundTimer--;
+        }
+      } catch (error) {
+        console.error(error);
+        clearInterval(gameLoop);
       }
-      const screen = new ImageData(screenWidth, screenHeight);
-      c8.graphics.forEach((isWhite, index) => {
-        const offset = 15;
-        const shade = isWhite ? 0xff - offset : offset;
-        screen.data[index * 4] = shade;
-        screen.data[index * 4 + 1] = shade;
-        screen.data[index * 4 + 2] = shade;
-        screen.data[index * 4 + 3] = 255;
-      });
-      canvasContext.putImageData(screen, 0, 0);
-      requestAnimationFrame(drawScreen);
-    };
-    requestAnimationFrame(drawScreen);
+    }, 1000 / 60);
     return () => {
-      looping = false;
+      clearInterval(gameLoop);
     };
   }, [canvasContext]);
 
