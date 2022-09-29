@@ -26,6 +26,13 @@ import skipNextIfVxEqualVy from "./operations/skip-next-if-vx-equal-vy";
 import setVxToVxOrVy from "./operations/set-vx-to-vx-or-vy";
 import setVxToVxXorVy from "./operations/set-vx-to-vx-xor-vy";
 import rightShiftVx from "./operations/right-shift-vx";
+import setVxToVyMinusVx from "./operations/set-vx-to-vy-minus-vx";
+import leftShiftVx from "./operations/left-shft-vx";
+import skipNextIfVxNotEqualVy from "./operations/skip-next-if-vx-not-equal-vy";
+import jumpToV0PlusNnn from "./operations/jump-to-v0-plus-nnn";
+import skipNextIfKeyVxIsPressed from "./operations/skip-next-if-key-vx-is-pressed";
+import addVxToAddressRegister from "./operations/add-vx-to-address-register";
+import storeV0ThroughVxInMemory from "./operations/store-v0-through-vx-in-memory";
 
 export default function executeNextOperation(c8: C8) {
   const operationCode = concatenateBytes(
@@ -74,18 +81,28 @@ const operationMap: OperationMap = {
     0x4: addVyToVx,
     0x5: subtractVyFromVx,
     0x6: rightShiftVx,
+    0x7: setVxToVyMinusVx,
+    0xe: leftShiftVx,
   },
+  0x9000: skipNextIfVxNotEqualVy,
   0xa000: setAddressRegisterToNnn,
+  0xb000: jumpToV0PlusNnn,
   0xc000: setVxToRandomNumberAndNn,
   0xd000: drawSprite,
-  0xe000: { selector: 0xff, 0xa1: skipNextIfKeyVxIsNotPressed },
+  0xe000: {
+    selector: 0xff,
+    0x9e: skipNextIfKeyVxIsPressed,
+    0xa1: skipNextIfKeyVxIsNotPressed,
+  },
   0xf000: {
     selector: 0xff,
     0x07: setVxToDelayTimer,
     0x15: setDelayTimerToVx,
     0x18: setSoundTimerToVx,
+    0x1e: addVxToAddressRegister,
     0x29: setAddresRegisterToFontSpriteVx,
     0x33: storeVxAsDecimalInMemory,
+    0x55: storeV0ThroughVxInMemory,
     0x65: loadMemoryIntoV0ThroughVx,
   },
 };
