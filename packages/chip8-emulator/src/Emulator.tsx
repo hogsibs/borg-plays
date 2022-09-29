@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import bindKeyboard from "./bind-keyboard";
 import { screenHeight, screenWidth } from "./constants";
 import executeNextOperation from "./execute-next-operation";
 import initializeC8 from "./initialize-c8";
@@ -19,6 +20,7 @@ export default () => {
     if (!canvasContext) return;
 
     const c8 = initializeC8();
+    const unbindKeyboard = bindKeyboard(c8);
     loadRom(c8, pong);
 
     const stopGameLoop = setEmulatedInterval(() => {
@@ -67,6 +69,7 @@ export default () => {
       keepDrawing = false;
       stopGameLoop();
       stopTimers();
+      unbindKeyboard();
     }
   }, [canvasContext]);
 
