@@ -4,6 +4,7 @@ import executeNextOperation from "./execute-next-operation";
 import initializeC8 from "./initialize-c8";
 import loadRom from "./load-rom";
 import pong from "./pong";
+import setEmulatedInterval from "./set-emulated-interval";
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,40 +17,57 @@ export default () => {
   }, []);
   useEffect(() => {
     if (!canvasContext) return;
+
     const c8 = initializeC8();
     loadRom(c8, pong);
-    const gameLoop = setInterval(() => {
+
+    const stopGameLoop = setEmulatedInterval(() => {
       try {
         executeNextOperation(c8);
-        const screen = new ImageData(screenWidth, screenHeight);
-        c8.graphics.forEach((isWhite, index) => {
-          const offset = 15;
-          const shade = isWhite ? 0xff - offset : offset;
-          screen.data[index * 4] = shade;
-          screen.data[index * 4 + 1] = shade;
-          screen.data[index * 4 + 2] = shade;
-          screen.data[index * 4 + 3] = 255;
-        });
-        canvasContext.putImageData(screen, 0, 0);
-
-        if (c8.delayTimer > 0) {
-          c8.delayTimer--;
-        }
-
-        if (c8.soundTimer > 0) {
-          if (c8.soundTimer === 1) {
-            console.log("BEEP");
-          }
-          c8.soundTimer--;
-        }
       } catch (error) {
         console.error(error);
-        clearInterval(gameLoop);
+        abort();
       }
-    }, 1000 / 60);
-    return () => {
-      clearInterval(gameLoop);
-    };
+    }, 500);
+
+    let keepDrawing = true;
+    requestAnimationFrame(drawScreen);
+
+    const stopTimers = setEmulatedInterval(() => {
+      if (c8.delayTimer > 0) {
+        c8.delayTimer--;
+      }
+
+      if (c8.soundTimer > 0) {
+        console.log("BEEP");
+        c8.soundTimer--;
+      }
+    }, 60);
+
+    return abort;
+
+    function drawScreen() {
+      if (!canvasContext || !keepDrawing) return;
+
+      const screen = new ImageData(screenWidth, screenHeight);
+      c8.graphics.forEach((isWhite, index) => {
+        const offset = 15;
+        const shade = isWhite ? 0xff - offset : offset;
+        screen.data[index * 4] = shade;
+        screen.data[index * 4 + 1] = shade;
+        screen.data[index * 4 + 2] = shade;
+        screen.data[index * 4 + 3] = 255;
+      });
+      canvasContext.putImageData(screen, 0, 0);
+
+      requestAnimationFrame(drawScreen);
+    }
+
+    function abort() {
+      keepDrawing = false;
+      stopGameLoop();
+      stopTimers();
+    }
   }, [canvasContext]);
 
   return (

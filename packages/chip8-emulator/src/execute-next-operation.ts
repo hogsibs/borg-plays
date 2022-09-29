@@ -21,21 +21,26 @@ import skipNextIfVxNotEqualNn from "./operations/skip-next-if-vx-not-equal-nn";
 import setVxToVy from "./operations/set-vx-to-vy";
 import subtractVyFromVx from "./operations/subtract-vy-from-vx";
 import setSoundTimerToVx from "./operations/set-sound-timer-to-vx";
+import goToNextInstruction from "./go-to-next-instruction";
+import skipNextIfVxEqualVy from "./operations/skip-next-if-vx-equal-vy";
+import setVxToVxOrVy from "./operations/set-vx-to-vx-or-vy";
+import setVxToVxXorVy from "./operations/set-vx-to-vx-xor-vy";
+import rightShiftVx from "./operations/right-shift-vx";
 
 export default function executeNextOperation(c8: C8) {
   const operationCode = concatenateBytes(
     c8.memory[c8.programCounter],
     c8.memory[c8.programCounter + 1]
   );
-  c8.programCounter += 2;
-  executeOperation(operationMap, c8, operationCode);
+  goToNextInstruction(c8);
+  return executeOperation(operationMap, c8, operationCode);
 }
 
 const executeOperation = (
   operationMap: OperationMap,
   c8: C8,
   operationCode: number
-) => {
+): void | 0 => {
   const query = operationCode & operationMap.selector;
   if (!(query in operationMap)) {
     throw new Error(
@@ -44,9 +49,9 @@ const executeOperation = (
   }
   const target = operationMap[query];
   if ("selector" in target) {
-    executeOperation(target, c8, operationCode);
+    return executeOperation(target, c8, operationCode);
   } else {
-    target(c8, operationCode);
+    return target(c8, operationCode);
   }
 };
 
@@ -57,14 +62,18 @@ const operationMap: OperationMap = {
   0x2000: callSubroutineAtNnn,
   0x3000: skipNextIfVxEqualsNn,
   0x4000: skipNextIfVxNotEqualNn,
+  0x5000: skipNextIfVxEqualVy,
   0x6000: setVxToNn,
   0x7000: addNnToVx,
   0x8000: {
     selector: 0xf,
     0: setVxToVy,
+    0x1: setVxToVxOrVy,
     0x2: setVxToVxAndVy,
+    0x3: setVxToVxXorVy,
     0x4: addVyToVx,
     0x5: subtractVyFromVx,
+    0x6: rightShiftVx,
   },
   0xa000: setAddressRegisterToNnn,
   0xc000: setVxToRandomNumberAndNn,
