@@ -1,18 +1,15 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { Socket } from "socket.io-client";
-import { screenWidth, screenHeight } from "../pages/index";
+import { screenHeight, screenWidth } from "./Connector";
 
 export function drawScreen(
   socket: Socket<DefaultEventsMap, DefaultEventsMap>,
-  canvasContext: CanvasRenderingContext2D | undefined
+  canvasContext: CanvasRenderingContext2D
 ) {
   socket.on("screen", draw);
   return () => socket.off("screen", draw);
 
   function draw(graphics: boolean[]) {
-    if (!canvasContext) {
-      return;
-    }
     const screen = new ImageData(screenWidth, screenHeight);
     graphics.forEach((isWhite, index) => {
       const offset = 15;

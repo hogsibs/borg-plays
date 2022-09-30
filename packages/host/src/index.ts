@@ -26,6 +26,9 @@ loadRom(c8, pong);
 startEmulator(c8);
 io.on("connection", (socket) => {
   console.log("a user connected");
+  socket.on("keyPad", (keyPad: number) => {
+    c8.keyPad = keyPad;
+  });
   socket.on("disconnect", () => {
     console.log("a user disconnected");
   });
