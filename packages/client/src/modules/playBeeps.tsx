@@ -1,7 +1,10 @@
 import { Socket } from "socket.io-client";
 
 export function playBeeps(socket: Socket, audioContext: AudioContext) {
-  socket.on("beep", (time: number) => {
+  socket.on("beep", beep);
+  return () => socket.off("beep");
+
+  function beep(time: number) {
     const oscillator = audioContext.createOscillator();
     oscillator.type = "sine";
     oscillator.frequency.setValueAtTime(261.63, audioContext.currentTime);
@@ -30,5 +33,5 @@ export function playBeeps(socket: Socket, audioContext: AudioContext) {
 
     oscillator.start();
     oscillator.stop(audioContext.currentTime + time);
-  });
+  }
 }

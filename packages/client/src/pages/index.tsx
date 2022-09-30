@@ -6,8 +6,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { playBeeps } from "../modules/playBeeps";
+import { drawScreen } from "../modules/drawScreen";
+
+export const screenWidth = 64;
+export const screenHeight = 32;
 
 export const Head: HeadFC = () => <title>Borg Plays - Home</title>;
 
@@ -29,17 +33,30 @@ const Connector: FunctionComponent = () => {
 
   const [audioContext] = useState(new AudioContext());
 
+  const [socket, setSocket] = useState<Socket>();
+
   const connect = useCallback(() => {
     setIsConnected(true);
     const socket = io("http://localhost:8001/");
-    playBeeps(socket, audioContext);
-  }, []);
+    setSocket(socket);
+  }, [canvasContext]);
+
+  useEffect(() => {
+    if (socket) {
+      const stopBeeps = playBeeps(socket, audioContext);
+      const stopDrawing = drawScreen(socket, canvasContext);
+      return () => {
+        stopBeeps();
+        stopDrawing();
+      };
+    }
+  }, [canvasContext, audioContext, socket]);
   return isConnected ? (
     <>
       <canvas
         ref={canvasRef}
-        width={64}
-        height={32}
+        width={screenWidth}
+        height={screenHeight}
         style={{
           border: "10px ridge gray",
           boxSizing: "border-box",
