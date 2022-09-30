@@ -7,6 +7,7 @@ import loadRom from "./load-rom";
 import { getX } from "./operations/common";
 import pong from "./pong";
 import setEmulatedInterval from "./set-emulated-interval";
+import startEmulator from "./start-emulator";
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -65,23 +66,10 @@ export default () => {
     const unbindKeyboard = bindKeyboard(c8);
     loadRom(c8, pong);
 
-    const stopGameLoop = setEmulatedInterval(() => {
-      try {
-        executeNextOperation(c8);
-      } catch (error) {
-        console.error(error);
-        abort();
-      }
-    }, 500);
+    const stopEmulator = startEmulator(c8);
 
     let keepDrawing = true;
     requestAnimationFrame(drawScreen);
-
-    const stopTimers = setEmulatedInterval(() => {
-      if (c8.delayTimer > 0) {
-        c8.delayTimer--;
-      }
-    }, 60);
 
     return abort;
 
@@ -104,8 +92,7 @@ export default () => {
 
     function abort() {
       keepDrawing = false;
-      stopGameLoop();
-      stopTimers();
+      stopEmulator();
       unbindKeyboard();
     }
   }, [canvasContext]);
