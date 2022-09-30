@@ -14,6 +14,10 @@ const server = createServer(app);
 
 const io = new Server(server);
 const c8 = initializeC8({
+  drawSprite: (base, c8, code) => {
+    base(c8, code);
+    io.emit("screen", c8.graphics);
+  },
   setSoundTimerToVx: (_, c8, code) => {
     io.emit("beep", c8.registers[getX(code)] / 60);
   },
