@@ -1,6 +1,6 @@
-import executeNextOperation from "./execute-next-operation";
-import setEmulatedInterval from "./set-emulated-interval";
-import C8 from "./types/c8";
+import executeNextOperation from "./execute-next-operation.js";
+import setEmulatedInterval from "./set-emulated-interval.js";
+import C8 from "./types/c8.js";
 
 const startEmulator = (c8: C8) => {
   const stopGameLoop = setEmulatedInterval(() => {

@@ -1,4 +1,4 @@
-import type OperationMap from "../types/operation-map";
+import type OperationMap from "../types/operation-map.js";
 
 export default interface C8 {
   memory: Uint8Array;

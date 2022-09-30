@@ -1,6 +1,6 @@
-import { flagRegister } from "../constants";
-import C8 from "../types/c8";
-import { getX, getY } from "./common";
+import { flagRegister } from "../constants.js";
+import C8 from "../types/c8.js";
+import { getX, getY } from "./common.js";
 
 export default function subtractVyFromVx(c8: C8, code: number) {
   const x = getX(code);

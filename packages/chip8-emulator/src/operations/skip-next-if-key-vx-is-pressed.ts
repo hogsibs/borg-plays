@@ -1,6 +1,6 @@
-import goToNextInstruction from "../go-to-next-instruction";
-import C8 from "../types/c8";
-import { getX } from "./common";
+import goToNextInstruction from "../go-to-next-instruction.js";
+import C8 from "../types/c8.js";
+import { getX } from "./common.js";
 
 export default function (c8: C8, code: number) {
   const key = 1 << c8.registers[getX(code)];

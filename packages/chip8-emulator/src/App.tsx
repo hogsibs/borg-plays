@@ -1,4 +1,4 @@
-import Emulator from "./Emulator";
+import Emulator from "./Emulator.js";
 import React from "react";
 
 export default () => (

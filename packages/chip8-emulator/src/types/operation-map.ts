@@ -1,4 +1,4 @@
-import Operation from "./operation";
+import Operation from "./operation.js";
 
 export default interface OperationMap {
   selector: number;

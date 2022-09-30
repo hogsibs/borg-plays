@@ -1,6 +1,6 @@
-import { flagRegister, screenHeight, screenWidth } from "../constants";
-import C8 from "../types/c8";
-import { getN, getX, getY } from "./common";
+import { flagRegister, screenHeight, screenWidth } from "../constants.js";
+import C8 from "../types/c8.js";
+import { getN, getX, getY } from "./common.js";
 
 const width = 8;
 export default function drawSprite(c8: C8, code: number) {

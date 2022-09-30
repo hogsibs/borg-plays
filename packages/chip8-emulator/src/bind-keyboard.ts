@@ -1,4 +1,4 @@
-import C8 from "./types/c8";
+import C8 from "./types/c8.js";
 
 export default function bindKeyboard(c8: C8) {
   const keyDownListener = ({ key }: KeyboardEvent) => {

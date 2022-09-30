@@ -1,5 +1,5 @@
-import type { Operations } from "../operations";
-import OperationExtension from "./operation-extension";
+import type { Operations } from "../operations/index.js";
+import OperationExtension from "./operation-extension.js";
 
 type CustomOperations = {
   [Operation in keyof Partial<Operations>]: OperationExtension;

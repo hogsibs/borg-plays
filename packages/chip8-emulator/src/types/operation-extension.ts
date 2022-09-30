@@ -1,4 +1,4 @@
-import type Operation from "./operation";
+import type Operation from "./operation.js";
 
 type OperationExtension = (
   base: Operation,

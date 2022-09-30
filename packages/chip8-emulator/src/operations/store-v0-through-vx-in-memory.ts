@@ -1,5 +1,5 @@
-import C8 from "../types/c8";
-import { getX } from "./common";
+import C8 from "../types/c8.js";
+import { getX } from "./common.js";
 
 export default function storeV0ThroughVxInMemory(c8: C8, code: number) {
   const x = getX(code);

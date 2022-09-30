@@ -1,5 +1,5 @@
-import C8 from "../types/c8";
-import { getX, getY } from "./common";
+import C8 from "../types/c8.js";
+import { getX, getY } from "./common.js";
 
 export default function setVxToVxAndVy(c8: C8, code: number) {
   const x = getX(code);

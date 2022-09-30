@@ -1,7 +1,7 @@
-import { concatenateBytes } from "./bit-operations";
-import goToNextInstruction from "./go-to-next-instruction";
-import type OperationMap from "./types/operation-map";
-import C8 from "./types/c8";
+import { concatenateBytes } from "./bit-operations.js";
+import goToNextInstruction from "./go-to-next-instruction.js";
+import type OperationMap from "./types/operation-map.js";
+import C8 from "./types/c8.js";
 
 export default function executeNextOperation(c8: C8) {
   const operationCode = concatenateBytes(

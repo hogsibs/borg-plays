@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import bindKeyboard from "./bind-keyboard";
-import { screenHeight, screenWidth } from "./constants";
-import executeNextOperation from "./execute-next-operation";
-import initializeC8 from "./initialize-c8";
-import loadRom from "./load-rom";
-import { getX } from "./operations/common";
-import pong from "./pong";
-import setEmulatedInterval from "./set-emulated-interval";
-import startEmulator from "./start-emulator";
+import bindKeyboard from "./bind-keyboard.js";
+import { screenHeight, screenWidth } from "./constants.js";
+import initializeC8 from "./initialize-c8.js";
+import loadRom from "./load-rom.js";
+import { getX } from "./operations/common.js";
+import pong from "./pong.js";
+import startEmulator from "./start-emulator.js";
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

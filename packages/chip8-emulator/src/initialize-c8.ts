@@ -1,17 +1,17 @@
-import applyCustomOperations from "./apply-custom-operations";
-import buildOperationMap from "./build-operation-map";
+import applyCustomOperations from "./apply-custom-operations.js";
+import buildOperationMap from "./build-operation-map.js";
 import {
   memorySize,
   programCounterStartingPosition,
   registerCount,
   screenHeight,
   screenWidth,
-} from "./constants";
-import { copy } from "./copy";
-import fontSet from "./font-set";
-import defaultOperations from "./operations";
-import type C8 from "./types/c8";
-import CustomOperations from "./types/custom-operations";
+} from "./constants.js";
+import { copy } from "./copy.js";
+import fontSet from "./font-set.js";
+import defaultOperations from "./operations/index.js";
+import type C8 from "./types/c8.js";
+import CustomOperations from "./types/custom-operations.js";
 
 const initializeC8 = (customOperations?: CustomOperations): C8 => {
   const c8: C8 = {

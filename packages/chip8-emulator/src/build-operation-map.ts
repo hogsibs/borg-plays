@@ -1,4 +1,4 @@
-import { Operations } from "./operations";
+import { Operations } from "./operations/index.js";
 
 export default (operations: Operations) => ({
   selector: 0xf000,

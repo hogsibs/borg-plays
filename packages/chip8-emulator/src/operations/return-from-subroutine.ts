@@ -1,4 +1,4 @@
-import C8 from "../types/c8";
+import C8 from "../types/c8.js";
 
 export default function returnFromSubroutine(c8: C8) {
   const returnLocation = c8.stack.pop();

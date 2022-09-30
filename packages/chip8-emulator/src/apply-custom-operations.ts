@@ -1,7 +1,7 @@
-import { Operations } from "./operations";
-import C8 from "./types/c8";
-import CustomOperations from "./types/custom-operations";
-import Operation from "./types/operation";
+import { Operations } from "./operations/index.js";
+import C8 from "./types/c8.js";
+import CustomOperations from "./types/custom-operations.js";
+import Operation from "./types/operation.js";
 
 export default function applyCustomOperations(
   baseOperations: Operations,
@@ -17,7 +17,7 @@ export default function applyCustomOperations(
       return [
         operationName,
         (c8: C8, code: number) =>
-          customOperations[operationName](operation, c8, code),
+          customOperations[operationName]!(operation, c8, code),
       ];
     } else {
       return [operationName, operation];
