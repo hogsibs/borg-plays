@@ -4,6 +4,7 @@ import { screenHeight, screenWidth } from "./constants";
 import executeNextOperation from "./execute-next-operation";
 import initializeC8 from "./initialize-c8";
 import loadRom from "./load-rom";
+import { getX } from "./operations/common";
 import pong from "./pong";
 import setEmulatedInterval from "./set-emulated-interval";
 
@@ -19,7 +20,13 @@ export default () => {
   useEffect(() => {
     if (!canvasContext) return;
 
-    const c8 = initializeC8();
+    const c8 = initializeC8({
+      setSoundTimerToVx: (_, c8, code) => {
+        console.log(
+          `beeping for ${Math.round((c8.registers[getX(code)] * 1000) / 60)}ms`
+        );
+      },
+    });
     const unbindKeyboard = bindKeyboard(c8);
     loadRom(c8, pong);
 
@@ -38,11 +45,6 @@ export default () => {
     const stopTimers = setEmulatedInterval(() => {
       if (c8.delayTimer > 0) {
         c8.delayTimer--;
-      }
-
-      if (c8.soundTimer > 0) {
-        console.log("BEEP");
-        c8.soundTimer--;
       }
     }, 60);
 

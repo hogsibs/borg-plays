@@ -1,3 +1,5 @@
+import applyCustomOperations from "./apply-custom-operations";
+import buildOperationMap from "./build-operation-map";
 import {
   memorySize,
   programCounterStartingPosition,
@@ -7,9 +9,11 @@ import {
 } from "./constants";
 import { copy } from "./copy";
 import fontSet from "./font-set";
+import defaultOperations from "./operations";
 import type C8 from "./types/c8";
+import CustomOperations from "./types/custom-operations";
 
-const initializeC8 = (): C8 => {
+const initializeC8 = (customOperations?: CustomOperations): C8 => {
   const c8: C8 = {
     memory: new Uint8Array(memorySize),
     registers: new Uint8Array(registerCount),
@@ -20,6 +24,11 @@ const initializeC8 = (): C8 => {
     soundTimer: 0,
     stack: [],
     keyPad: 0,
+    operationMap: buildOperationMap(
+      customOperations
+        ? applyCustomOperations(defaultOperations, customOperations)
+        : defaultOperations
+    ),
   };
   copy(fontSet, c8.memory);
   return c8;

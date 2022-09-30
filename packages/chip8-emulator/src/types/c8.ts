@@ -1,3 +1,5 @@
+import type OperationMap from "../types/operation-map";
+
 export default interface C8 {
   memory: Uint8Array;
   registers: Uint8Array;
@@ -8,4 +10,5 @@ export default interface C8 {
   soundTimer: number;
   stack: number[];
   keyPad: number;
+  operationMap: OperationMap;
 }
