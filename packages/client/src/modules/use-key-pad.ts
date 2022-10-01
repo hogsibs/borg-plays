@@ -1,18 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { Socket } from "socket.io-client";
 
-const useKeyPad = () => {
-  const keyPadRef = useRef(0);
-  const [keyPad, setKeyPad] = useState(0);
+const validKeys = {
+  "1": undefined,
+  q: undefined,
+  a: undefined,
+  "3": undefined,
+  e: undefined,
+  d: undefined,
+};
+
+const useKeyPad = (socket: Socket | undefined) => {
+  const keyPadRef = useRef<KeyPad>({});
+  const keyPad = keyPadRef.current;
+  const emitKeyPad = useCallback(() => {
+    console.log("keypad emitted");
+    if (socket) {
+      socket.emit("keyPad", keyPad);
+    }
+  }, [socket]);
   useEffect(() => {
     const keyDownListener = ({ key }: KeyboardEvent) => {
-      keyPadRef.current |= getKeyWord(key);
-      setKeyPad(keyPadRef.current);
+      if (key in validKeys && !keyPad[key]) {
+        keyPad[key] = true;
+        emitKeyPad();
+      }
     };
     addEventListener("keydown", keyDownListener);
 
     const keyUpListener = ({ key }: KeyboardEvent) => {
-      keyPadRef.current &= ~getKeyWord(key);
-      setKeyPad(keyPadRef.current);
+      if (key in validKeys && keyPad[key]) {
+        keyPad[key] = false;
+        emitKeyPad();
+      }
     };
     addEventListener("keyup", keyUpListener);
 
@@ -21,10 +41,12 @@ const useKeyPad = () => {
       removeEventListener("keyup", keyUpListener);
     };
   }, []);
-
-  return keyPad;
 };
 export default useKeyPad;
+
+interface KeyPad {
+  [key: string]: boolean;
+}
 
 function getKeyWord(key: string) {
   return 1 << keyMap[key as keyof typeof keyMap];

@@ -12,8 +12,8 @@ export const Connector: FunctionComponent = () => {
   const audioContext = useAudioContext();
   const [socket, connect] = useSocket();
   const [canvasContext, canvasRef] = useCanvasContext(socket);
-  const keyPad = useKeyPad();
-  usePeripherals(canvasContext, audioContext, socket, keyPad);
+  useKeyPad(socket);
+  usePeripherals(canvasContext, audioContext, socket);
 
   return socket ? (
     <>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Socket } from "socket.io-client";
 import { drawScreen } from "./drawScreen";
 import { playBeeps } from "./playBeeps";
@@ -6,8 +6,7 @@ import { playBeeps } from "./playBeeps";
 const usePeripherals = (
   canvasContext: CanvasRenderingContext2D | undefined,
   audioContext: AudioContext | undefined,
-  socket: Socket | undefined,
-  keyPad: number
+  socket: Socket | undefined
 ) => {
   useEffect(() => {
     if (socket) {
@@ -27,8 +26,5 @@ const usePeripherals = (
       };
     }
   }, [canvasContext, audioContext, socket]);
-  useMemo(() => {
-    socket?.emit("keyPad", keyPad);
-  }, [socket, keyPad]);
 };
 export default usePeripherals;
