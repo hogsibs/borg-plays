@@ -1,0 +1,17 @@
+{
+  "terminal.integrated.env.linux": {
+    "GIT_SUBREPO_ROOT": "${workspaceFolder}/utilities/git-subrepo",
+    "PATH": "${workspaceFolder}/utilities/git-subrepo/lib:${env:PATH}",
+    "MANPATH": "${workspaceFolder}/utilities/git-subrepo/man:${env:MANPATH}"
+  },
+  "terminal.integrated.env.osx": {
+    "GIT_SUBREPO_ROOT": "${workspaceFolder}/utilities/git-subrepo",
+    "PATH": "${workspaceFolder}/utilities/git-subrepo/lib:${env:PATH}",
+    "MANPATH": "${workspaceFolder}/utilities/git-subrepo/man:${env:MANPATH}"
+  },
+  "terminal.integrated.env.windows": {
+    "GIT_SUBREPO_ROOT": "${workspaceFolder}/utilities/git-subrepo",
+    "PATH": "${workspaceFolder}/utilities/git-subrepo/lib;${env:PATH}",
+    "MANPATH": "${workspaceFolder}/utilities/git-subrepo/man;${env:MANPATH}"
+  }
+}
