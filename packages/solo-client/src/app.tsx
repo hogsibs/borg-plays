@@ -1,20 +1,20 @@
 import Emulator from "./emulator";
-import { FunctionComponent, useEffect, useRef, useState } from "react";
-import { Rom, roms } from "chip8-emulator";
+import { FunctionComponent, useRef, useState } from "react";
+import { roms } from "chip8-emulator";
+import { AudioContextProvider } from "./audio-context";
+
+type RomKey = keyof typeof roms;
 
 const App: FunctionComponent = () => {
   const [enableAudio, setEnableAudio] = useState(false);
   const romSelectRef = useRef<HTMLSelectElement>(null);
-  const [romKey, setRomKey] = useState(Object.keys(roms)[0]);
-  const [rom, setRom] = useState<Rom>();
-  useEffect(() => {
-    setRom(roms[romKey as keyof typeof roms]);
-    return () => {};
-  }, [romKey]);
+  const [romKey, setRomKey] = useState<RomKey>(Object.keys(roms)[0] as RomKey);
   return (
     <>
       <h1>Chip-8 Emulator Solo Play</h1>
-      <Emulator enableAudio={enableAudio} rom={rom} />
+      <AudioContextProvider enableAudio={enableAudio}>
+        <Emulator rom={roms[romKey]} />
+      </AudioContextProvider>
       <section>
         <h2>Settings</h2>
         <table>
@@ -38,7 +38,7 @@ const App: FunctionComponent = () => {
               <td>
                 <select
                   onChange={({ target }) =>
-                    setRomKey(target.selectedOptions[0].value)
+                    setRomKey(target.selectedOptions[0].value as RomKey)
                   }
                   ref={romSelectRef}
                 >

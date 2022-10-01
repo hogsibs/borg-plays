@@ -1,45 +1,49 @@
 import beep from "./beep";
 import {
-  C8,
   getX,
   initializeC8,
   loadRom,
-  pong,
   Rom,
   startEmulator,
 } from "chip8-emulator";
-import { MutableRefObject, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import useKeyPad from "./use-key-pad";
 import { drawScreen } from "./draw-screen";
+import { useAudioContext } from "./audio-context";
 
 const useChip8 = (
-  audioContextRef: MutableRefObject<AudioContext | undefined>,
   canvasContext: CanvasRenderingContext2D | undefined,
   rom: Rom | undefined
 ) => {
-  const [chip8, setChip8] = useState<C8>();
+  const audioContextRef = useRef<AudioContext | undefined>();
+  audioContextRef.current = useAudioContext();
+
+  const c8 = useMemo(
+    () =>
+      canvasContext
+        ? initializeC8({
+            drawSprite: (base, c8, code) => {
+              base(c8, code);
+              drawScreen(canvasContext, c8.graphics);
+            },
+            setSoundTimerToVx: (_, c8, code) => {
+              if (audioContextRef.current) {
+                beep(audioContextRef.current, c8.registers[getX(code)] / 60);
+              }
+            },
+          })
+        : undefined,
+    [canvasContext]
+  );
+  useKeyPad(c8);
   useEffect(() => {
-    if (!(canvasContext && rom)) {
+    if (!(c8 && rom)) {
       return;
     }
-
-    const c8 = initializeC8({
-      drawSprite: (base, c8, code) => {
-        base(c8, code);
-        drawScreen(canvasContext, c8.graphics);
-      },
-      setSoundTimerToVx: (_, c8, code) => {
-        if (audioContextRef.current) {
-          beep(audioContextRef.current, c8.registers[getX(code)] / 60);
-        }
-      },
-    });
     loadRom(c8, rom.data);
-    const stopEmulator = startEmulator(c8);
-    setChip8(c8);
-    return stopEmulator;
-  }, [canvasContext, rom]);
-  useKeyPad(chip8);
-  return chip8;
+    return startEmulator(c8);
+  }, [c8, rom]);
+
+  return c8;
 };
 export default useChip8;
