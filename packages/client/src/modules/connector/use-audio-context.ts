@@ -1,4 +1,5 @@
 import { useState } from "react";
 
-const useAudioContext = () => useState(new AudioContext())[0];
+const useAudioContext = () =>
+  useState(typeof AudioContext !== "undefined" && new AudioContext())[0];
 export default useAudioContext;
