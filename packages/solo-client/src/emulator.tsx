@@ -1,17 +1,19 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent } from "react";
 import useCanvasContext from "./use-canvas-context";
 import useAudioContextRef from "./use-audio-context-ref";
 import useChip8 from "./use-chip8";
+import type { Rom } from "chip8-emulator";
 
 export const screenWidth = 64;
 export const screenHeight = 32;
 
-const Emulator: FunctionComponent<{ enableAudio: boolean }> = ({
-  enableAudio,
-}) => {
+const Emulator: FunctionComponent<{
+  enableAudio: boolean;
+  rom: Rom | undefined;
+}> = ({ enableAudio, rom }) => {
   const audioContextRef = useAudioContextRef(enableAudio);
   const [canvasContext, canvasRef] = useCanvasContext();
-  useChip8(audioContextRef, canvasContext);
+  useChip8(audioContextRef, canvasContext, rom);
   return (
     <canvas
       ref={canvasRef}

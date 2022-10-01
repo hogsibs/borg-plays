@@ -1,21 +1,57 @@
 import Emulator from "./emulator";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { Rom, roms } from "chip8-emulator";
 
 const App: FunctionComponent = () => {
   const [enableAudio, setEnableAudio] = useState(false);
+  const romSelectRef = useRef<HTMLSelectElement>(null);
+  const [romKey, setRomKey] = useState(Object.keys(roms)[0]);
+  const [rom, setRom] = useState<Rom>();
+  useEffect(() => {
+    setRom(roms[romKey as keyof typeof roms]);
+    return () => {};
+  }, [romKey]);
   return (
     <>
       <h1>Chip-8 Emulator Solo Play</h1>
-      <Emulator enableAudio={enableAudio} />
+      <Emulator enableAudio={enableAudio} rom={rom} />
       <section>
         <h2>Settings</h2>
-        <label>
-          Enable Audio
-          <input
-            type="checkbox"
-            onChange={(event) => setEnableAudio(event.target.checked)}
-          />
-        </label>
+        <table>
+          <tbody>
+            <tr>
+              <td style={{ textAlign: "right" }}>
+                <label htmlFor="enableAudio">Enable Audio</label>
+              </td>
+              <td>
+                <label>
+                  <input
+                    id="enableAudio"
+                    type="checkbox"
+                    onChange={(event) => setEnableAudio(event.target.checked)}
+                  />
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ textAlign: "right" }}>Game</td>
+              <td>
+                <select
+                  onChange={({ target }) =>
+                    setRomKey(target.selectedOptions[0].value)
+                  }
+                  ref={romSelectRef}
+                >
+                  {Object.entries(roms).map(([id, rom]) => (
+                    <option key={id} value={id} selected={id === romKey}>
+                      {rom.name}
+                    </option>
+                  ))}
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
       <section>
         <h2>Controls</h2>

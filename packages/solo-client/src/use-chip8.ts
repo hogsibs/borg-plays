@@ -5,6 +5,7 @@ import {
   initializeC8,
   loadRom,
   pong,
+  Rom,
   startEmulator,
 } from "chip8-emulator";
 import { MutableRefObject, useEffect, useMemo, useState } from "react";
@@ -13,11 +14,12 @@ import { drawScreen } from "./draw-screen";
 
 const useChip8 = (
   audioContextRef: MutableRefObject<AudioContext | undefined>,
-  canvasContext: CanvasRenderingContext2D | undefined
+  canvasContext: CanvasRenderingContext2D | undefined,
+  rom: Rom | undefined
 ) => {
   const [chip8, setChip8] = useState<C8>();
   useEffect(() => {
-    if (!canvasContext) {
+    if (!(canvasContext && rom)) {
       return;
     }
 
@@ -32,11 +34,11 @@ const useChip8 = (
         }
       },
     });
-    loadRom(c8, pong.data);
+    loadRom(c8, rom.data);
     const stopEmulator = startEmulator(c8);
     setChip8(c8);
     return stopEmulator;
-  }, [canvasContext]);
+  }, [canvasContext, rom]);
   useKeyPad(chip8);
   return chip8;
 };
