@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "lerna run --stream lint",
     "prepare": "lerna bootstrap",
-    "develop": "lerna run --parallel --stream develop"
+    "develop": "lerna run --parallel --stream develop",
+    "solo": "lerna run start --scope=@borg-plays/solo-client"
   }
 }
