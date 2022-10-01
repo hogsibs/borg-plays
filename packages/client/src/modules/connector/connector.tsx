@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import useAudioContext from "./useAudioContext";
+import { FunctionComponent } from "react";
+import useAudioContext from "./use-audio-context";
 import useSocket from "./use-socket";
 import useCanvasContext from "./use-canvas-context";
 import usePeripherals from "./use-peripherals";
@@ -8,7 +8,7 @@ import useKeyPad from "./use-key-pad";
 export const screenWidth = 64;
 export const screenHeight = 32;
 
-export const Connector: FunctionComponent = () => {
+const Connector: FunctionComponent = () => {
   const audioContext = useAudioContext();
   const [socket, connect] = useSocket();
   const [canvasContext, canvasRef] = useCanvasContext(socket);
@@ -33,3 +33,4 @@ export const Connector: FunctionComponent = () => {
     <button onClick={connect}>Connect</button>
   );
 };
+export default Connector;

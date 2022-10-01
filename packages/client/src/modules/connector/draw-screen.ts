@@ -1,6 +1,6 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { Socket } from "socket.io-client";
-import { screenHeight, screenWidth } from "./Connector";
+import { screenHeight, screenWidth } from "./connector";
 
 export function drawScreen(
   socket: Socket<DefaultEventsMap, DefaultEventsMap>,

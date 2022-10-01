@@ -1,6 +1,6 @@
 import type { HeadFC, PageProps } from "gatsby";
-import React, { FunctionComponent } from "react";
-import { Connector } from "../modules/Connector";
+import { FunctionComponent } from "react";
+import Connector from "../modules/connector/connector";
 
 export const Head: HeadFC = () => <title>Borg Plays - Home</title>;
 

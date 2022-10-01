@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Socket } from "socket.io-client";
-import { drawScreen } from "./drawScreen";
-import { playBeeps } from "./playBeeps";
+import { drawScreen } from "./draw-screen";
+import { playBeeps } from "./play-beeps";
 
 const usePeripherals = (
   canvasContext: CanvasRenderingContext2D | undefined,

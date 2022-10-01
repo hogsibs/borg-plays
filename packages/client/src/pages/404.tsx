@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { Link, HeadFC, PageProps } from "gatsby";
 
 export const Head: HeadFC = () => <title>Borg Plays - Not found</title>;
