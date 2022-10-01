@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/hogsibs/gatsby-plugin-transform-react-jsx.git
+	branch = main
+	commit = d499f0b71d1b63ed93d877bd89cd9093fcd16a9a
+	parent = e11c3e308d8e6cfd0387e7a33940aef1e4f08f06
+	method = merge
+	cmdver = 0.4.5

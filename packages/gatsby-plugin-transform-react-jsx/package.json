@@ -1,0 +1,19 @@
+{
+  "name": "gatsby-plugin-transform-react-jsx",
+  "version": "0.0.0",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
+  },
+  "files": [
+    "gatsby-node.js"
+  ],
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
+    "gatsby": "4.23.1"
+  }
+}
