@@ -14,7 +14,6 @@ const useKeyPad = (socket: Socket | undefined) => {
   const keyPadRef = useRef<KeyPad>({});
   const keyPad = keyPadRef.current;
   const emitKeyPad = useCallback(() => {
-    console.log("keypad emitted");
     if (socket) {
       socket.emit("keyPad", keyPad);
     }
