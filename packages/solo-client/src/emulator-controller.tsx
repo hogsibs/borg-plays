@@ -1,4 +1,6 @@
+import { useAudioContext } from "./audio-context";
 import beep from "./beep";
+import { useCanvas2dContext } from "./canvas-2d";
 import {
   getX,
   initializeC8,
@@ -6,15 +8,14 @@ import {
   Rom,
   startEmulator,
 } from "chip8-emulator";
-import { useEffect, useMemo, useRef } from "react";
-import useKeyPad from "./use-key-pad";
 import { drawScreen } from "./draw-screen";
-import { useAudioContext } from "./audio-context";
+import { FunctionComponent, useEffect, useMemo, useRef } from "react";
+import useKeyPad from "./use-key-pad";
 
-const useChip8 = (
-  canvasContext: CanvasRenderingContext2D,
-  rom: Rom | undefined
-) => {
+const EmulatorController: FunctionComponent<{ rom: Rom | undefined }> = ({
+  rom,
+}) => {
+  const canvasContext = useCanvas2dContext();
   const audioContextRef = useRef<AudioContext | undefined>();
   audioContextRef.current = useAudioContext();
 
@@ -41,7 +42,7 @@ const useChip8 = (
     loadRom(c8, rom.data);
     return startEmulator(c8);
   }, [c8, rom]);
-
-  return c8;
+  return null;
 };
-export default useChip8;
+
+export default EmulatorController;
