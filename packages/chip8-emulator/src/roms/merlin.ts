@@ -1,0 +1,8 @@
+import type Rom from "../types/rom";
+
+const merlin: Rom = {
+  controlGroups: {},
+  data: "EhkgTUVSTElOIEJ5IERhdmlkIFdJTlRFUiL5ox1gEGEAIsujMWALYRsiy2QEIt9lAGIoIsHCA4Ago1n1HvBVYBdhCGMBgyIzAHAKYwKDIjMAcQqjF9AWYhQiwdAWYgUiwXUBVFASNWUAYBdhCKMX8wozBBJ5YwASlzMFEoNwCmMBEpczBxKNcQpjAhKXMwgSaXAKcQpjA9AWYhQiwdAWo1n1HvBldQFQMBK1VUASaSLfdAESLSL5o0VgEGEOIssSv/IV8gcyABLDAO6DAGIF0BXyHnAIhTB1IFBQEs8A7qNZg0Bz/fMz8mXxKWArYxvQNXAF8inQNQDuow9gF2EH0BhwCtAYcQrQGHD20BgA7v+BgYGBgYH/fn5+fn5+26qLy8vvCI8N7KCgsDC+X1FR2dmDgoOC++gIiAXivqC4ID6AgICA+PeFt5X1dlRWVFY6KioqObaltqU1",
+  name: "Merlin",
+};
+export default merlin;

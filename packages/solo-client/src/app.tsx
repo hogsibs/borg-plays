@@ -9,7 +9,9 @@ const App: FunctionComponent = () => {
   const [rom, setRom] = useState<Rom>();
   useEffect(() => {
     setRom(roms[romKey as keyof typeof roms]);
-    return () => {};
+    return () => {
+      // noop
+    };
   }, [romKey]);
   return (
     <>
@@ -40,10 +42,11 @@ const App: FunctionComponent = () => {
                   onChange={({ target }) =>
                     setRomKey(target.selectedOptions[0].value)
                   }
+                  defaultValue={romKey}
                   ref={romSelectRef}
                 >
                   {Object.entries(roms).map(([id, rom]) => (
-                    <option key={id} value={id} selected={id === romKey}>
+                    <option key={id} value={id}>
                       {rom.name}
                     </option>
                   ))}
