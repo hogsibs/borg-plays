@@ -30,12 +30,15 @@ import skipNextIfVxNotEqualVy from "./skip-next-if-vx-not-equal-vy.js";
 import storeV0ThroughVxInMemory from "./store-v0-through-vx-in-memory.js";
 import storeVxAsDecimalInMemory from "./store-vx-as-decimal-in-memory.js";
 import subtractVyFromVx from "./subtract-vy-from-vx.js";
+import clearScreen from "./clear-screen.js";
+import waitForAnyKey from "./wait-for-any-key.js";
 
 const operations = {
   addNnToVx,
   addVxToAddressRegister,
   addVyToVx,
   callSubroutineAtNnn,
+  clearScreen,
   drawSprite,
   jumpToNnn,
   jumpToV0PlusNnn,
@@ -64,6 +67,7 @@ const operations = {
   storeV0ThroughVxInMemory,
   storeVxAsDecimalInMemory,
   subtractVyFromVx,
+  waitForAnyKey,
 };
 export default operations;
 
