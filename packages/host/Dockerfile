@@ -1,22 +1,30 @@
-# Use the official lightweight Node.js 18 image.
-# https://hub.docker.com/_/node
-FROM node:18-alpine
+FROM node:18-alpine as base
+WORKDIR /app
 
-# Create and change to the app directory.
-WORKDIR /usr/src/app
-
-# Copy application dependency manifests to the container image.
-# A wildcard is used to ensure both package.json AND package-lock.json are copied.
-# Copying this separately prevents re-running npm install on every code change.
 COPY package*.json ./
+COPY lerna.json ./
+COPY tsconfig.json ./
+COPY ./packages/chip8-emulator/package.json ./packages/chip8-emulator/
+COPY ./package.json ./packages/host/
 
-# Install dependencies.
-# If you add a package-lock.json speed your build by switching to 'npm ci'.
-# RUN npm ci --only=production
+COPY ./packages/chip8-emulator/ ./packages/chip8-emulator/
+COPY ./packages/host ./packages/host/
+RUN npm install
+RUN npx lerna run build --scope=chip8-emulator
+RUN npx lerna run build --scope=@borg-plays/host
+
+FROM node:18-alpine
+WORKDIR /app
+
+COPY ./package*.json ./
+COPY ./packages/chip8-emulator/package.json ./packages/chip8-emulator/
+COPY ./packages/host/package.json ./packages/host/
+
 RUN npm install --production
 
-# Copy local code to the container image.
-COPY ./dist ./dist
+COPY --from=base /app/packages/chip8-emulator/dist /app/packages/chip8-emulator/dist
+COPY --from=base /app/packages/host/dist /app/packages/host/dist
 
-# Run the web service on container startup.
-CMD ["node", "dist/index.js"]
+WORKDIR /app/packages/host/
+EXPOSE $PORT
+CMD ["npm", "start"]

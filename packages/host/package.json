@@ -7,7 +7,7 @@
     "build": "tsc",
     "lint": "eslint src",
     "develop": "nodemon --config ./nodemon.json",
-    "start": "ts-node --esm ./src"
+    "start": "node ./dist"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 import C8 from "../types/c8";
-import { getX } from "./common";
+import { getX } from "./common.js";
 
 const waitForAnyKey = (c8: C8, code: number) => {
   if (c8.keyPad === 0) {

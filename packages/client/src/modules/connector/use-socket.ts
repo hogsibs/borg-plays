@@ -4,7 +4,7 @@ import { io, Socket } from "socket.io-client";
 const useSocket = (): [Socket | undefined, () => void] => {
   const [socket, setSocket] = useState<Socket>();
   const connect = useCallback(() => {
-    const socket = io("http://localhost:8001/");
+    const socket = io("http://localhost:8080/");
     setSocket(socket);
   }, []);
   return [socket, connect];

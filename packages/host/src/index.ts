@@ -13,6 +13,10 @@ import { Server } from "socket.io";
 const app = express();
 const server = createServer(app);
 
+app.get("/", (_, response) => {
+  response.send("Hello, World");
+});
+
 const io = new Server(server);
 const keyPads: { [id: string]: { [key: string]: boolean } } = {};
 const votes = {
