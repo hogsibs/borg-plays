@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import type { GatsbyConfig } from "gatsby";
+
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -10,6 +13,10 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
+    {
+      resolve: "gatsby-source-custom-api ",
+      options: { hostUrl: process.env.HOST_URL },
+    },
     "gatsby-plugin-styled-components",
     "gatsby-plugin-transform-react-jsx",
   ],
