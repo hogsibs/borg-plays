@@ -7,10 +7,15 @@ import {
 } from "chip8-emulator";
 import express from "express";
 import { createServer } from "http";
+import { env } from "process";
 import { Server } from "socket.io";
 
 const app = express();
 const server = createServer(app);
+
+app.get("/", (_, response) => {
+  response.send("Hello, World");
+});
 
 const io = new Server(server);
 const keyPads: { [id: string]: { [key: string]: boolean } } = {};
@@ -112,7 +117,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const port = 8001;
+const port = env.PORT ?? 8080;
 server.listen(port, () => console.log(`listening on port ${port}`));
 
 function processKeyPads() {

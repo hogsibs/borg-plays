@@ -40,10 +40,11 @@ const App: FunctionComponent = () => {
                   onChange={({ target }) =>
                     setRomKey(target.selectedOptions[0].value as RomKey)
                   }
+                  defaultValue={romKey}
                   ref={romSelectRef}
                 >
                   {Object.entries(roms).map(([id, rom]) => (
-                    <option key={id} value={id} selected={id === romKey}>
+                    <option key={id} value={id}>
                       {rom.name}
                     </option>
                   ))}

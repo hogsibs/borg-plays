@@ -2,7 +2,11 @@ import { Operations } from "./operations/index.js";
 
 export default (operations: Operations) => ({
   selector: 0xf000,
-  0: { selector: 0xff, 0xee: operations.returnFromSubroutine },
+  0: {
+    selector: 0xff,
+    0xe0: operations.clearScreen,
+    0xee: operations.returnFromSubroutine,
+  },
   0x1000: operations.jumpToNnn,
   0x2000: operations.callSubroutineAtNnn,
   0x3000: operations.skipNextIfVxEqualsNn,
@@ -35,6 +39,7 @@ export default (operations: Operations) => ({
   0xf000: {
     selector: 0xff,
     0x07: operations.setVxToDelayTimer,
+    0x0a: operations.waitForAnyKey,
     0x15: operations.setDelayTimerToVx,
     0x18: operations.setSoundTimerToVx,
     0x1e: operations.addVxToAddressRegister,
