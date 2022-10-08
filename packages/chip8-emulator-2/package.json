@@ -1,0 +1,21 @@
+{
+  "name": "chip8-emulator-2",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "develop": "tsc --watch",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "typewatch": "tsc --noEmit --watch"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "type": "module",
+  "files": [
+    "dist/*"
+  ]
+}
