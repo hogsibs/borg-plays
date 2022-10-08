@@ -11,6 +11,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "chip8-emulator-2": "*",
     "chip8-emulator": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

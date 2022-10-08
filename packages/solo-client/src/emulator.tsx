@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import type { Rom } from "chip8-emulator";
 import Canvas2d from "./canvas-2d";
-import EmulatorController from "./emulator-controller";
+import EmulatorController from "./new-emulator-controller";
 
 export const screenWidth = 64;
 export const screenHeight = 32;
@@ -19,7 +19,7 @@ const Emulator: FunctionComponent<{
       width: "40em",
     }}
   >
-    <EmulatorController rom={rom} />
+    {rom && <EmulatorController rom={rom} />}
   </Canvas2d>
 );
 
