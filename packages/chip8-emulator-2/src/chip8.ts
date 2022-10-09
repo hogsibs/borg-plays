@@ -17,7 +17,7 @@ export default interface Chip8 {
   soundTimer: number;
 }
 
-export const initializeChip8 = (rom: Uint8Array) => {
+export const initializeChip8 = (rom: Uint8Array): Chip8 => {
   const chip8: Chip8 = {
     memory: new Uint8Array(0x1000),
     registers: new Uint8Array(0x10),

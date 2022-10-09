@@ -38,17 +38,21 @@ const EmulatorController: FunctionComponent<{ rom: Rom }> = ({ rom }) => {
   useEffect(() => {
     const stepperMs = 1000 / 500;
     const delayTimerMs = 1000 / 60;
-    let lastStep: number, lastDelay: number;
-    lastStep = lastDelay = performance.now();
+    let lastInterval = performance.now();
+    let nextStep = lastInterval + stepperMs;
+    let nextDelay = lastInterval + delayTimerMs;
     const interval = setInterval(() => {
-      while (lastStep < performance.now()) {
-        step(chip8);
-        lastStep += stepperMs;
-        if (lastDelay < lastStep) {
+      while (lastInterval < performance.now()) {
+        lastInterval++;
+        if (lastInterval >= nextStep) {
+          step(chip8);
+          nextStep += stepperMs;
+        }
+        if (lastInterval >= nextDelay) {
           if (chip8.delayTimer > 0) {
             --chip8.delayTimer;
           }
-          lastDelay += delayTimerMs;
+          nextDelay += delayTimerMs;
         }
       }
     });

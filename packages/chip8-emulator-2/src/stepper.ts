@@ -6,7 +6,7 @@ export type Operations = typeof defaultOperations;
 
 const stepper =
   (operations: Operations = defaultOperations) =>
-  (chip8: Chip8) => {
+  (chip8: Chip8): void => {
     // fetch
     const firstByte = chip8.memory[chip8.programCounter++];
     const nn = chip8.memory[chip8.programCounter++];
