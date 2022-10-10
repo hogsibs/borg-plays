@@ -8,6 +8,7 @@
     "lerna": "^5.5.2"
   },
   "scripts": {
+    "build": "lerna run build",
     "lint": "lerna run --stream lint",
     "develop": "lerna run --parallel --stream develop",
     "solo": "lerna run start --scope=@borg-plays/solo-client"
