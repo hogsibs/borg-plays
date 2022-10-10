@@ -8,6 +8,7 @@
     "lerna": "^5.5.2"
   },
   "scripts": {
+    "bootstrap": "lerna run bootstrap",
     "build": "lerna run build",
     "lint": "lerna run --stream lint",
     "develop": "lerna run --parallel --stream develop",
