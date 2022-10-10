@@ -25,4 +25,4 @@ steps:
       - "--region"
       - "us-west1"
 images:
-  - "gcr.io/$PROJECT_ID/myapi:$COMMIT_SHA"
+  - "gcr.io/$PROJECT_ID/borg-plays-host:$COMMIT_SHA"
