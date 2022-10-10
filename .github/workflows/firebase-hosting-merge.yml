@@ -15,4 +15,3 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BORG_PLAY }}"
           channelId: live
           projectId: borg-play
-        env:
