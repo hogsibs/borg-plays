@@ -9,6 +9,10 @@
           {
             "key": "cache-control",
             "value": "public, max-age=0, must-revalidate"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "borg-plays-host-ro6rbc5hfq-uw.a.run.app"
           }
         ]
       },
