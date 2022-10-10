@@ -12,7 +12,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn install --no-save
       - run: yarn run build --configuration=production
       - uses: FirebaseExtended/action-hosting-deploy@v0
