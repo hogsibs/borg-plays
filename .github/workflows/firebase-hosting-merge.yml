@@ -14,7 +14,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock.json') }}
       - run: yarn install --no-save
-      - run: yarn run build --configuration=production
+      - run: yarn run build -- --configuration=production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
