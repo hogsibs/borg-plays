@@ -39,7 +39,7 @@ const useKeyPad = (socket: Socket | undefined) => {
       removeEventListener("keydown", keyDownListener);
       removeEventListener("keyup", keyUpListener);
     };
-  }, []);
+  }, [emitKeyPad]);
 };
 export default useKeyPad;
 
