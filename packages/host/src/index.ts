@@ -17,7 +17,9 @@ app.get("/", (_, response) => {
   response.send("Hello, World");
 });
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: { origin: "https://borg-play.web.app/", methods: ["GET", "POST"] },
+});
 const keyPads: { [id: string]: { [key: string]: boolean } } = {};
 const votes = {
   left: { up: 0, hold: 0, down: 0 },
